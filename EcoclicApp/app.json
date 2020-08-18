@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "ECOCLIC",
+    "slug": "ECOCLIC ",
+    "privacy": "public",
+    "sdkVersion": "37.0.0",
+    "platforms": ["ios", "android"],
+    "version": "1.5.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.PROGICIELSYSTEM.ECOCLIC",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.PROGICIELSYSTEM.ECOCLIC",
+      "versionCode": 1
+    },
+    "description": "ECOCLIC . Coded by PROGICIEL SYSTEM ",
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  }
+}
