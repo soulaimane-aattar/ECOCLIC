@@ -13,13 +13,13 @@ import { Block, Text, theme } from "galio-framework";
 import { Button } from "../components";
 import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
-import { block } from "react-native-reanimated";
 
+import { connect } from "react-redux";
 const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-export default class Product extends React.Component {
+class Product extends React.Component {
   render() {
     const { route } = this.props;
     const { product } = route.params;
@@ -68,9 +68,10 @@ export default class Product extends React.Component {
                       fontWeight: "700",
                     }}
                     style={styles.addToCard}
+                    onPress={() => this.props.addItemToCart(product)}
                   >
                     <Text bold color={theme.COLORS.WHITE}>
-                      Add to card
+                      Ajout au panier
                     </Text>
                   </Button>
                 </Block>
@@ -83,6 +84,18 @@ export default class Product extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    cartItems: state,
+  };
+};
+const mapDispatchProps = (dispatch) => {
+  return {
+    addItemToCart: (product) =>
+      dispatch({ type: "ADD_TO_CART", payload: product }),
+  };
+};
+export default connect(null, mapDispatchProps)(Product);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

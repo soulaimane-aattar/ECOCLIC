@@ -1,92 +1,125 @@
 import React from "react";
-import { StyleSheet, Dimensions, ScrollView, Image } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Image,
+  FlatList,
+} from "react-native";
 import { Block, theme, Text } from "galio-framework";
 
 import { Card, Select, Button } from "../components";
 import articles from "../constants/articles";
 import { argonTheme } from "../constants/";
-import { block } from "react-native-reanimated";
+
+import { connect } from "react-redux";
 const { width } = Dimensions.get("screen");
 
 //  <Block flex style={(styles.imgContainer, styles.shadow)}>
-const CardItem = ({ item }) => {
+const CardItem = (props) => {
+  const { item, removeItemFromCart, changeItemQuantity } = props;
+  console.log("item", item);
   return (
-    <Block card flex style={(styles.cardItem, styles.shadow)}>
-      <Block row style={{ backgroundColor: theme.COLORS.WHITE }}>
-        <Image source={{ uri: item.image }} style={styles.img} />
-        <Block flex space="between" style={styles.cardDescription}>
-          <Text bold size={18} style={styles.cardTitle}>
-            {item.title}
-          </Text>
-          <Block flex right>
-            <Text size={16} muted={true} color={argonTheme.COLORS.ACTIVE} bold>
-              ${item.prix}
+    <Block style={{ marginBottom: 30 }}>
+      <Block card flex style={(styles.cardItem, styles.shadow)}>
+        <Block row style={{ backgroundColor: theme.COLORS.WHITE }}>
+          <Image source={{ uri: item.image }} style={styles.img} />
+          <Block flex space="between" style={styles.cardDescription}>
+            <Text bold size={18} style={styles.cardTitle}>
+              {item.title}
             </Text>
+            <Block flex right>
+              <Text
+                size={16}
+                muted={true}
+                color={argonTheme.COLORS.ACTIVE}
+                bold
+              >
+                {item.prix} dh
+              </Text>
+            </Block>
           </Block>
         </Block>
-      </Block>
-      <Block row space="evenly" style={styles.itemFooter}>
-        <Block flex left>
-          <Select defaultIndex={1} options={["01", "02", "03", "04", "05"]} />
-        </Block>
-        <Block flex center>
-          <Button small center color="default" style={styles.optionsButton}>
-            DELETE
-          </Button>
-        </Block>
-        <Block flex={1.25} right>
-          <Button center color="default" style={styles.optionsButton}>
-            SAVE FOR LATER
-          </Button>
+        <Block row space="evenly" style={styles.itemFooter}>
+          <Block flex left>
+            <Select
+              onSelect={(_, value) => changeItemQuantity(item, parseInt(value))}
+              defaultIndex={1}
+              value={item.quantity}
+              options={["01", "02", "03", "04", "05"]}
+            />
+          </Block>
+          <Block flex center>
+            <Button
+              small
+              center
+              color="default"
+              style={styles.optionsButton}
+              onPress={() => removeItemFromCart(item)}
+            >
+              DELETE
+            </Button>
+          </Block>
+          <Block flex={1.25} right>
+            <Button center color="default" style={styles.optionsButton}>
+              SAVE FOR LATER
+            </Button>
+          </Block>
         </Block>
       </Block>
     </Block>
   );
 };
 
-export default class Cart extends React.Component {
+class Cart extends React.Component {
   renderArticles = () => {
+    const { navigation } = this.props;
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.articles}
       >
-        <Block>
-          <Block row>
-            <Text
-              style={{ marginBottom: theme.SIZES.BASE / 2 }}
-              color={argonTheme.COLORS.DEFAULT}
-            >
-              Card subtotal (5 items):
-            </Text>
-            <Text
-              bold
-              style={{ marginBottom: theme.SIZES.BASE / 2 }}
-              color={argonTheme.COLORS.RED}
-            >
-              $725
-            </Text>
-          </Block>
-
-          <Button
-            shadowless
-            style={styles.checkout}
-            textStyle={{
-              color: "white",
-              fontSize: 14,
-            }}
-          >
-            Proceed to checkout
-          </Button>
-        </Block>
-
-        <Block flex space="around">
-          <Block style={{ marginBottom: 30 }}>
-            <CardItem item={articles[0]} />
-          </Block>
+        {this.props.cartItems.length > 0 && (
           <Block>
-            <CardItem item={articles[1]} />
+            <Block row>
+              <Text
+                style={{ marginBottom: theme.SIZES.BASE / 2 }}
+                color={argonTheme.COLORS.DEFAULT}
+              >
+                subtotal panier ({this.props.cartItems.length} items):
+              </Text>
+              <Text
+                bold
+                style={{ marginBottom: theme.SIZES.BASE / 2 }}
+                color={argonTheme.COLORS.RED}
+              >
+                {this.props.cartItems.reduce(
+                  (a, b) => a + b.prix * b.quantity,
+                  0
+                )}
+                dh
+              </Text>
+            </Block>
+
+            <Button
+              shadowless
+              style={styles.checkout}
+              textStyle={{
+                color: "white",
+                fontSize: 14,
+              }}
+              onPress={() => navigation.navigate("Commandes")}
+            >
+              Proceed to checkout
+            </Button>
           </Block>
+        )}
+        <Block flex space="around">
+          <FlatList
+            data={this.props.cartItems}
+            renderItem={({ item }) => <CardItem item={item} {...this.props} />}
+            keyExtractor={(item) => item.id}
+          />
         </Block>
       </ScrollView>
     );
@@ -158,3 +191,23 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    cartItems: state,
+  };
+};
+const mapDispatchProps = (dispatch) => {
+  return {
+    removeItemFromCart: (product) =>
+      dispatch({ type: "REMOVE_FROM_CART", payload: product }),
+    changeItemQuantity: (product, quantity) =>
+      dispatch({
+        type: "CHANGE_ITEM_QUANTITY",
+        payload: product,
+        quantity: quantity,
+      }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchProps)(Cart);

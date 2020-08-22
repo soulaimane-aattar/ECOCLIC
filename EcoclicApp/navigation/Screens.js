@@ -20,6 +20,7 @@ import Articles from "../screens/Articles";
 import Login from "../screens/Login";
 
 import Notifications from "../screens/Notifications";
+import Commandes from "../screens/Commandes";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -247,6 +248,22 @@ function HomeStack(props) {
             />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="Commandes"
+        component={Commandes}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Commandes"
+              back
+              hasActions
+              navigation={navigation}
+              scene={scene}
+              style={{ backgroundColor: argonTheme.COLORS.WHITE }}
+            />
+          ),
         }}
       />
     </Stack.Navigator>

@@ -6,6 +6,9 @@ import { Asset } from "expo-asset";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
 
+import { Provider } from "react-redux";
+import store from "./store";
+
 // Before rendering any navigation stack
 import { enableScreens } from "react-native-screens";
 enableScreens();
@@ -69,9 +72,11 @@ export default (props) => {
     return (
       <NavigationContainer>
         <GalioProvider theme={argonTheme}>
-          <Block flex>
-            <Screens />
-          </Block>
+          <Provider store={store}>
+            <Block flex>
+              <Screens />
+            </Block>
+          </Provider>
         </GalioProvider>
       </NavigationContainer>
     );

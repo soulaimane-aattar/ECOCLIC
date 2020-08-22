@@ -1,5 +1,6 @@
 export default [
   {
+    id: 1,
     name: "Shoes",
     title: "Ice cream is made with carrageenan …",
     image:
@@ -9,6 +10,7 @@ export default [
     prix: 180,
   },
   {
+    id: 2,
     name: "Product 2 ",
     title: "Is makeup one of your daily esse …",
     image:
@@ -17,6 +19,7 @@ export default [
     prix: 230,
   },
   {
+    id: 3,
     name: "Product 3 ",
     title: "Coffee is more than just a drink: It’s …",
     image:
@@ -25,6 +28,7 @@ export default [
     prix: 120,
   },
   {
+    id: 4,
     name: "Product 4 ",
     title: "Fashion is a popular style, especially in …",
     image:
@@ -33,6 +37,7 @@ export default [
     prix: 260,
   },
   {
+    id: 5,
     name: "Product 5 ",
     title: "Argon is a great free UI packag …",
     image:
