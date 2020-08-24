@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import {
   StyleSheet,
   ImageBackground,
@@ -6,15 +6,35 @@ import {
   StatusBar,
   KeyboardAvoidingView,
 } from "react-native";
-import { Block, Checkbox, Text, theme } from "galio-framework";
-
-import { Button, Icon, Input } from "../components";
+import { Block, Checkbox, theme } from "galio-framework";
+import * as yup from "yup";
+import { Formik } from "formik";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Input } from "react-native-elements";
+import { TextInput, Text, Alert } from "react-native";
 import { Images, argonTheme } from "../constants";
-
+import { Button } from "react-native-elements";
 const { width, height } = Dimensions.get("screen");
-
+import axios from "axios";
 export default class Login extends React.Component {
   render() {
+    this.state = {
+      username: "",
+      password: "",
+    };
+    const checkLogin = (values) => {
+      const username = values.username;
+      const password = values.password;
+      axios
+        .post("http://localhost:3000/auth/login", {
+          username: username,
+          password: password,
+        })
+        .then(() => navigation.navigate("App"))
+        .catch((respance) => {
+          Alert.alert(respance.response.data);
+        });
+    };
     const { navigation } = this.props;
     return (
       <Block flex middle>
@@ -30,99 +50,53 @@ export default class Login extends React.Component {
                   LOGIN
                 </Text>
               </Block>
-              <Block flex>
-                <Block flex center>
-                  <KeyboardAvoidingView
-                    style={{ flex: 1 }}
-                    behavior="padding"
-                    enabled
-                  >
-                    <Block
-                      flex
-                      style={{
-                        paddingTop: "30%",
-                      }}
-                    >
-                      <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                        <Input
-                          borderless
-                          placeholder="Email"
-                          iconContent={
-                            <Icon
-                              size={16}
-                              color={argonTheme.COLORS.ICON}
-                              name="ic_mail_24px"
-                              family="ArgonExtra"
-                              style={styles.inputIcons}
-                            />
-                          }
-                        />
-                      </Block>
-                      <Block width={width * 0.8}>
-                        <Input
-                          password
-                          borderless
-                          placeholder="Password"
-                          iconContent={
-                            <Icon
-                              size={16}
-                              color={argonTheme.COLORS.ICON}
-                              name="padlock-unlocked"
-                              family="ArgonExtra"
-                              style={styles.inputIcons}
-                            />
-                          }
-                        />
-                        <Block row style={styles.passwordCheck}>
-                          <Text size={12} color={argonTheme.COLORS.MUTED}>
-                            password strength:
-                          </Text>
-                          <Text
-                            bold
-                            size={12}
-                            color={argonTheme.COLORS.SUCCESS}
-                          >
-                            {" "}
-                            strong
-                          </Text>
-                        </Block>
-                      </Block>
-                    </Block>
-                    <Block
-                      flex
-                      style={{
-                        justifyContent: "flex-end",
-                        paddingBottom: 30,
-                      }}
-                    >
-                      <Block
-                        row
-                        //style={{ paddingTop: 50 }}
-                        width={width * 0.75}
-                      >
-                        <Checkbox
-                          checkboxStyle={{
-                            borderWidth: 3,
-                          }}
-                          color={argonTheme.COLORS.PRIMARY}
-                          label="I agree with the Privacy Policy"
-                        />
-                      </Block>
-                      <Block middle>
-                        <Button
-                          color="primary"
-                          style={styles.createButton}
-                          onPress={() => navigation.navigate("App")}
-                        >
-                          <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                            Login
-                          </Text>
-                        </Button>
-                      </Block>
-                    </Block>
-                  </KeyboardAvoidingView>
-                </Block>
-              </Block>
+              <Formik
+                initialValues={this.state}
+                onSubmit={(values) => checkLogin(values)}
+                validationSchema={validationSchema}
+              >
+                {({
+                  values,
+                  handleChange,
+                  errors,
+                  setFieldTouched,
+                  touched,
+                  isValid,
+                  handleSubmit,
+                }) => (
+                  <Fragment>
+                    <Input
+                      value={values.username}
+                      onChangeText={handleChange("username")}
+                      onBlur={() => setFieldTouched("username")}
+                      placeholder="username"
+                      leftIcon={<Icon name="user" size={24} color="black" />}
+                    />
+                    {touched.username && errors.username && (
+                      <Text style={{ fontSize: 10, color: "red" }}>
+                        {errors.username}
+                      </Text>
+                    )}
+                    <Input
+                      value={values.password}
+                      onChangeText={handleChange("password")}
+                      placeholder="Password"
+                      onBlur={() => setFieldTouched("password")}
+                      secureTextEntry={true}
+                    />
+                    {touched.password && errors.password && (
+                      <Text style={{ fontSize: 10, color: "red" }}>
+                        {errors.password}
+                      </Text>
+                    )}
+                    <Button
+                      title="login"
+                      disabled={!isValid}
+                      onPress={() => handleSubmit()}
+                    />
+                  </Fragment>
+                )}
+              </Formik>
             </Block>
           </Block>
         </ImageBackground>
@@ -131,6 +105,11 @@ export default class Login extends React.Component {
   }
 }
 
+//validationSchema
+validationSchema = yup.object().shape({
+  username: yup.string().min(2).required("le nom d'utilisateur est requis"),
+  password: yup.string().min(2).required("le mot de passe est requis"),
+});
 const styles = StyleSheet.create({
   registerContainer: {
     width: width * 0.9,
