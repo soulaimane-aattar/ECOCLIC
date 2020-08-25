@@ -18,7 +18,7 @@ const { width } = Dimensions.get("screen");
 //  <Block flex style={(styles.imgContainer, styles.shadow)}>
 const CardItem = (props) => {
   const { item, removeItemFromCart, changeItemQuantity } = props;
-  console.log("item", item);
+  //console.log("item", item);
   return (
     <Block style={{ marginBottom: 30 }}>
       <Block card flex style={(styles.cardItem, styles.shadow)}>
@@ -57,7 +57,7 @@ const CardItem = (props) => {
               style={styles.optionsButton}
               onPress={() => removeItemFromCart(item)}
             >
-              DELETE
+              SUPPRIMER
             </Button>
           </Block>
           <Block flex={1.25} right>
@@ -86,7 +86,7 @@ class Cart extends React.Component {
                 style={{ marginBottom: theme.SIZES.BASE / 2 }}
                 color={argonTheme.COLORS.DEFAULT}
               >
-                subtotal panier ({this.props.cartItems.length} items):
+                subtotal panier ({this.props.cartItems.length} article):
               </Text>
               <Text
                 bold
@@ -110,7 +110,7 @@ class Cart extends React.Component {
               }}
               onPress={() => navigation.navigate("Commandes")}
             >
-              Proceed to checkout
+              Confirmer la commande
             </Button>
           </Block>
         )}

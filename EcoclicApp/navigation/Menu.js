@@ -15,7 +15,7 @@ function CustomDrawerContent({
   ...rest
 }) {
   const insets = useSafeArea();
-  const screens = ["Home", "Elements", "Articles"];
+  const screens = ["Accueil", "Elements", "Articles", "Commandes"];
   return (
     <Block
       style={styles.container}

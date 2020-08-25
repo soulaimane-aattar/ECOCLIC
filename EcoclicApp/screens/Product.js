@@ -4,6 +4,7 @@ import {
   Dimensions,
   ScrollView,
   Image,
+  SafeAreaView,
   ImageBackground,
   Platform,
   StatusBar,
@@ -21,9 +22,9 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 class Product extends React.Component {
   render() {
-    const { route } = this.props;
+    const { route, navigation } = this.props;
     const { product } = route.params;
-    console.log(product);
+    //console.log(product);
     return (
       <Block flex style={styles.container} /*style={styles.profile}*/>
         <StatusBar barStyle="light-content" />
@@ -33,7 +34,7 @@ class Product extends React.Component {
             style={styles.profileContainer}
             imageStyle={styles.profileBackground}
           >
-            <Block style={{ width, height, marginTop: "78%" }}>
+            <Block style={styles.DescriptionContainer}>
               <Block flex style={styles.profileCard}>
                 <Text
                   h3
@@ -43,13 +44,13 @@ class Product extends React.Component {
                   {product.name}
                 </Text>
 
-                <Block row space="between">
+                <Block flex row space="between">
                   <Block left>
                     <Text size={16}> {product.title}</Text>
                   </Block>
                   <Block right>
                     <Text size={20} bold>
-                      ${product.prix}
+                      {product.prix} dh
                     </Text>
                   </Block>
                 </Block>
@@ -58,6 +59,7 @@ class Product extends React.Component {
                   middle
                   style={{
                     justifyContent: "flex-end",
+                    marginBottom: 20,
                   }}
                 >
                   <Button
@@ -68,10 +70,13 @@ class Product extends React.Component {
                       fontWeight: "700",
                     }}
                     style={styles.addToCard}
-                    onPress={() => this.props.addItemToCart(product)}
+                    onPress={() => {
+                      this.props.addItemToCart(product);
+                      navigation.navigate("Cart");
+                    }}
                   >
                     <Text bold color={theme.COLORS.WHITE}>
-                      Ajout au panier
+                      Ajouter au panier
                     </Text>
                   </Button>
                 </Block>
@@ -119,8 +124,14 @@ const styles = StyleSheet.create({
     width: width,
     height: height / 2,
   },
+
+  DescriptionContainer: {
+    width: width,
+    marginTop: "78%",
+    height: height - thumbMeasure,
+  },
   profileCard: {
-    // position: "relative",
+    position: "relative",
     height: height,
     padding: theme.SIZES.BASE,
     marginHorizontal: theme.SIZES.BASE,

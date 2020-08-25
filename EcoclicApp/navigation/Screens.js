@@ -21,6 +21,7 @@ import Login from "../screens/Login";
 
 import Notifications from "../screens/Notifications";
 import Commandes from "../screens/Commandes";
+import Map from "../screens/Map";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -166,12 +167,12 @@ function HomeStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
-        name="Home"
+        name="Accueil"
         component={Home}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="Home"
+              title="Accueil"
               search
               // options
               navigation={navigation}
@@ -184,6 +185,23 @@ function HomeStack(props) {
       <Stack.Screen
         name="Pro"
         component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              white
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="Map"
+        component={Map}
         options={{
           header: ({ navigation, scene }) => (
             <Header
@@ -222,7 +240,7 @@ function HomeStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="shopping Cart"
+              title="Panier"
               back
               hasActions
               transparent
@@ -257,7 +275,6 @@ function HomeStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Commandes"
-              back
               hasActions
               navigation={navigation}
               scene={scene}
