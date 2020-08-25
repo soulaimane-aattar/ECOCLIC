@@ -20,8 +20,11 @@
     "@react-navigation/native": "5.0.0",
     "@react-navigation/stack": "5.0.0",
     "@use-expo/font": "^2.0.0",
-    "assert": "^2.0.0",
+<<<<<<< HEAD
     "axios": "^0.20.0",
+=======
+    "assert": "^2.0.0",
+>>>>>>> upstream/master
     "expo": "^37.0.0",
     "expo-asset": "~8.1.5",
     "expo-font": "~8.1.0",
@@ -33,7 +36,6 @@
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.5",
-    "react-native-dropdownalert": "^4.3.0",
     "react-native-elements": "^2.2.1",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-modal-dropdown": "^0.7.0",
@@ -42,10 +44,12 @@
     "react-native-screens": "^2.2.0",
     "react-native-unimodules": "~0.9.0",
     "react-native-web": "~0.11.7",
-    "react-redux": "^7.2.1",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
+<<<<<<< HEAD
     "yup": "^0.29.3"
+=======
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5"
+>>>>>>> upstream/master
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

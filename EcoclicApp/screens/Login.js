@@ -6,36 +6,30 @@ import {
   StatusBar,
   KeyboardAvoidingView,
 } from "react-native";
+import { connect } from "react-redux";
 import { Block, Checkbox, theme } from "galio-framework";
 import * as yup from "yup";
 import { Formik } from "formik";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
-import { TextInput, Text, Alert } from "react-native";
+import { TextInput, Text, Alert, ActivityIndicator } from "react-native";
 import { Images, argonTheme } from "../constants";
 import { Button } from "react-native-elements";
 const { width, height } = Dimensions.get("screen");
-import axios from "axios";
-export default class Login extends React.Component {
+import * as actions from "../actios/actionCreator";
+
+class Login extends React.Component {
   render() {
     this.state = {
       username: "",
       password: "",
     };
-    const checkLogin = (values) => {
-      const username = values.username;
-      const password = values.password;
-      axios
-        .post("http://localhost:3000/auth/login", {
-          username: username,
-          password: password,
-        })
-        .then(() => navigation.navigate("App"))
-        .catch((respance) => {
-          Alert.alert(respance.response.data);
-        });
-    };
     const { navigation } = this.props;
+    if (this.props.isLogged) navigation.replace("App");
+
+    if (this.props.errorOrNot == true)
+      Alert.alert(this.props.error.response.data.error);
+
     return (
       <Block flex middle>
         <StatusBar hidden />
@@ -52,7 +46,9 @@ export default class Login extends React.Component {
               </Block>
               <Formik
                 initialValues={this.state}
-                onSubmit={(values) => checkLogin(values)}
+                onSubmit={(values) => {
+                  this.props.dispatch(actions.login(values));
+                }}
                 validationSchema={validationSchema}
               >
                 {({
@@ -94,6 +90,7 @@ export default class Login extends React.Component {
                       disabled={!isValid}
                       onPress={() => handleSubmit()}
                     />
+                    {this.props.isLoading ? <ActivityIndicator /> : null}
                   </Fragment>
                 )}
               </Formik>
@@ -104,6 +101,15 @@ export default class Login extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isLogged: state.userReducer.isLogged,
+    isLoading: state.userReducer.isLoading,
+    error: state.userReducer.errorMessage,
+    errorOrNot: state.userReducer.errorOrNot,
+  };
+};
 
 //validationSchema
 validationSchema = yup.object().shape({
@@ -162,3 +168,4 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
 });
+export default connect(mapStateToProps)(Login);

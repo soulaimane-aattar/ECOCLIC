@@ -9,6 +9,7 @@ const ArgonLogo = require("../assets/imgs/argonlogo.png");
 const iOSLogo = require("../assets/imgs/ios.png");
 const androidLogo = require("../assets/imgs/android.png");
 const notification = require("../assets/notification-icon.png");
+const localisationIcone = require("../assets/imgs/localisation-icone.png");
 // internet imgs
 
 const ProfilePicture =
@@ -42,4 +43,5 @@ export default {
   iOSLogo,
   androidLogo,
   notification,
+  localisationIcone,
 };
