@@ -11,7 +11,7 @@ export const login = (values) => {
         password: values.password,
       })
       .then((responce) => {
-        console.log("loggin succes");
+        console.log(responce);
 
         dispatch({ type: ACTION_TYPES.LOGIN_SUCCESS, payload: responce });
       })

@@ -6,6 +6,8 @@ const initialState = {
   errorMessage: [],
   isLogged: false,
   errorOrNot: false,
+  token: "",
+  expired: true,
 };
 export default userReducer = (state = initialState, action) => {
   let nextState;
@@ -21,7 +23,7 @@ export default userReducer = (state = initialState, action) => {
     case ACTION_TYPES.LOGIN_SUCCESS:
       return (nextState = {
         ...state,
-        data: action.payload,
+        token: action.payload.data,
         isLoading: false,
         isLogged: true,
         errorOrNot: false,
