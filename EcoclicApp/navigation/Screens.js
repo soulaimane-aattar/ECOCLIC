@@ -22,6 +22,9 @@ import Login from "../screens/Login";
 import Notifications from "../screens/Notifications";
 import Commandes from "../screens/Commandes";
 import Map from "../screens/Map";
+
+import Clients from "../screens/admin/Clients";
+import AjoutClient from "../screens/admin/AjoutClient";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -287,6 +290,42 @@ function HomeStack(props) {
   );
 }
 
+function ClientsStack(props) {
+  return (
+    <Stack.Navigator initialRouteName="Clients" mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Clients"
+        component={Clients}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Clients"
+              //search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="AjoutClient"
+        component={AjoutClient}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Ajout client"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
@@ -305,6 +344,7 @@ export default function OnboardingStack(props) {
         }}
       />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen name="Admin" component={AdminStack} />
     </Stack.Navigator>
   );
 }
@@ -345,6 +385,42 @@ function AppStack(props) {
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+    </Drawer.Navigator>
+  );
+}
+
+function AdminStack(props) {
+  return (
+    <Drawer.Navigator
+      style={{ flex: 1 }}
+      drawerContent={(props) => <CustomDrawerContent isAdmin {...props} />}
+      drawerStyle={{
+        backgroundColor: "white",
+        width: width * 0.8,
+      }}
+      drawerContentOptions={{
+        activeTintcolor: "white",
+        inactiveTintColor: "#000",
+        activeBackgroundColor: "transparent",
+        itemStyle: {
+          width: width * 0.75,
+          backgroundColor: "transparent",
+          paddingVertical: 16,
+          paddingHorizonal: 12,
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+          overflow: "hidden",
+        },
+        labelStyle: {
+          fontSize: 18,
+          marginLeft: 12,
+          fontWeight: "normal",
+        },
+      }}
+      initialRouteName="Clients"
+    >
+      <Drawer.Screen name="Clients" component={ClientsStack} />
     </Drawer.Navigator>
   );
 }

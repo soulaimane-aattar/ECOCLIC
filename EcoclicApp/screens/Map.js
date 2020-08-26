@@ -7,15 +7,8 @@ import { StyleSheet, View } from "react-native";
 export default class Map extends React.Component {
   render() {
     return (
-      // <View style={styles.container}>
       <MapView
         style={styles.map}
-        /* initialRegion={{
-          latitude: 33.5166,
-          longitude: -7.5884,
-          latitudeDelta: 0.922,
-          longitudeDelta: 0.0421,
-        }}*/
         region={{
           latitude: 33.5166,
           longitude: -7.5884,
@@ -26,8 +19,6 @@ export default class Map extends React.Component {
         <Marker coordinate={{ latitude: 33.5166, longitude: -7.5884 }} />
         <Marker coordinate={{ latitude: 33.5266, longitude: -7.6884 }} />
       </MapView>
-
-      //</View>
     );
   }
 }

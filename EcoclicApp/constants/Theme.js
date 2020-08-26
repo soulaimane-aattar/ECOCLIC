@@ -30,4 +30,9 @@ export default {
     BLACK: "#000000",
     RED: "#ff0049",
   },
+  SIZES: {
+    BASE: 16,
+    FONT: 16,
+    OPACITY: 0.8,
+  },
 };
