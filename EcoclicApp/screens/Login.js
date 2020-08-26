@@ -113,7 +113,7 @@ export default class Login extends React.Component {
                           color="primary"
                           style={styles.createButton}
                           onPress={
-                            () => navigation.navigate("Admin") // Admin App
+                            () => navigation.navigate("App") // Admin App
                           }
                         >
                           <Text bold size={14} color={argonTheme.COLORS.WHITE}>

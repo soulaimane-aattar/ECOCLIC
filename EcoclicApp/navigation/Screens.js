@@ -31,6 +31,7 @@ import CustomDrawerContent from "./Menu";
 // header for screens
 import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
+import ShowClient from "../screens/admin/ShowClient";
 
 const { width } = Dimensions.get("screen");
 
@@ -315,6 +316,21 @@ function ClientsStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Ajout client"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="ShowClient"
+        component={ShowClient}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="client detail"
               back
               navigation={navigation}
               scene={scene}

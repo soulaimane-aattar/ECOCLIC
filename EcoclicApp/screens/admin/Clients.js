@@ -67,47 +67,53 @@ const ClientItem = ({ item }) => {
 
 export default class Clients extends React.Component {
   renderCard = (client, index) => {
+    const { navigation } = this.props;
     const gradientColors = index % 2 ? GRADIENT_BLUE : GRADIENT_PINK;
 
     return (
-      <Block
-        row
-        center
-        card
-        shadow
-        space="between"
-        style={styles.card}
+      <TouchableOpacity
         key={client.id}
+        onPress={() => navigation.navigate("ShowClient", { client: client })}
       >
-        <Gradient
-          start={[0.45, 0.45]}
-          end={[0.9, 0.9]}
-          colors={gradientColors}
-          style={[styles.gradient, styles.left]}
+        <Block
+          row
+          center
+          card
+          shadow
+          space="between"
+          style={styles.card}
+          key={client.id}
         >
-          <Icon
-            size={BASE_SIZE * 1.8}
-            name="user"
-            color={COLOR_WHITE}
-            family="Feather"
-          />
-        </Gradient>
+          <Gradient
+            start={[0.45, 0.45]}
+            end={[0.9, 0.9]}
+            colors={gradientColors}
+            style={[styles.gradient, styles.left]}
+          >
+            <Icon
+              size={BASE_SIZE * 1.8}
+              name="user"
+              color={COLOR_WHITE}
+              family="Feather"
+            />
+          </Gradient>
 
-        <Block flex>
-          <Text size={BASE_SIZE * 1.125}>{client.intituler}</Text>
-          <Text size={BASE_SIZE * 0.875} muted>
-            {client.codeClient}
-          </Text>
+          <Block flex>
+            <Text size={BASE_SIZE * 1.125}>{client.intituler}</Text>
+            <Text size={BASE_SIZE * 0.875} muted>
+              {client.codeClient}
+            </Text>
+          </Block>
+          <Button style={styles.right}>
+            <Icon
+              size={BASE_SIZE * 2}
+              name="chevron-right"
+              family="Entypo"
+              color={COLOR_GREY}
+            />
+          </Button>
         </Block>
-        <Button style={styles.right}>
-          <Icon
-            size={BASE_SIZE * 2}
-            name="chevron-right"
-            family="Entypo"
-            color={COLOR_GREY}
-          />
-        </Button>
-      </Block>
+      </TouchableOpacity>
     );
   };
   renderCards = () => cards.map((card, index) => this.renderCard(card, index));
