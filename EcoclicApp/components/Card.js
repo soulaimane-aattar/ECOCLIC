@@ -12,6 +12,11 @@ import { Block, Text, theme } from "galio-framework";
 import { argonTheme } from "../constants";
 
 class Card extends React.Component {
+  componentDidCatch(error, errorInfo) {
+    // Vous pouvez aussi enregistrer l'erreur au sein d'un service de rapport.
+    conmsole.log(error, errorInfo);
+  }
+
   render() {
     const {
       navigation,
@@ -22,6 +27,8 @@ class Card extends React.Component {
       ctaColor,
       imageStyle,
     } = this.props;
+
+    const cta = "Voir l'article";
 
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
@@ -40,7 +47,7 @@ class Card extends React.Component {
           onPress={() => navigation.navigate("Product", { product: item })}
         >
           <Block flex style={imgContainer}>
-            <Image source={{ uri: item.image }} style={imageStyles} />
+            <Image source={{ uri: item.articlePhoto }} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
@@ -48,7 +55,7 @@ class Card extends React.Component {
         >
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>
-              {item.title}
+              {item.articleDescription}
             </Text>
             <Text
               size={12}
@@ -56,7 +63,7 @@ class Card extends React.Component {
               color={ctaColor || argonTheme.COLORS.ACTIVE}
               bold
             >
-              {item.cta}
+              {cta}
             </Text>
           </Block>
         </TouchableWithoutFeedback>
@@ -66,7 +73,8 @@ class Card extends React.Component {
 }
 
 Card.propTypes = {
-  item: PropTypes.object,
+  item: PropTypes.number,
+  item: PropTypes.object.isRequired,
   horizontal: PropTypes.bool,
   full: PropTypes.bool,
   ctaColor: PropTypes.string,

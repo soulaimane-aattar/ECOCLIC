@@ -1,29 +1,35 @@
-import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Block, theme } from 'galio-framework';
+import React from "react";
+import { StyleSheet, Dimensions, ScrollView } from "react-native";
+import { Block, theme } from "galio-framework";
+import { connect } from "react-redux";
+import * as actions from "../actios/actionCreator";
 
-import { Card } from '../components';
-import articles from '../constants/articles';
-const { width } = Dimensions.get('screen');
+import { Card } from "../components";
+
+const { width } = Dimensions.get("screen");
 
 class Home extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(actions.getArticlesForThatUser(this.props.token));
+  }
   renderArticles = () => {
+    console.log("i am home i haev the artcile");
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}>
+        contentContainerStyle={styles.articles}
+      >
         <Block flex>
-          <Card item={articles[0]} horizontal  />
           <Block flex row>
-            <Card item={articles[1]} style={{ marginRight: theme.SIZES.BASE }} />
-            <Card item={articles[2]} />
+            {this.props.articles.map((article) => {
+              <Card item={article} />;
+              console.log("article 1 passe");
+            })}
           </Block>
-          <Card item={articles[3]} horizontal />
-          <Card item={articles[4]} full />
         </Block>
       </ScrollView>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -36,7 +42,7 @@ class Home extends React.Component {
 
 const styles = StyleSheet.create({
   home: {
-    width: width,    
+    width: width,
   },
   articles: {
     width: width - theme.SIZES.BASE * 2,
@@ -44,4 +50,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+//redux config
+
+const mapStateToProps = (state) => {
+  return {
+    isLogged: state.userReducer.isLogged,
+    isLoading: state.userReducer.isLoading,
+    error: state.userReducer.errorMessage,
+    errorOrNot: state.userReducer.errorOrNot,
+    token: state.userReducer.tokesn,
+    ///
+    articles: state.userReducer.articles,
+    articleIsLoading: state.userReducer.articleIsLoading,
+  };
+};
+export default connect(mapStateToProps)(Home);

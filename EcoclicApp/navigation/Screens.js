@@ -21,12 +21,17 @@ import Login from "../screens/Login";
 
 import Notifications from "../screens/Notifications";
 import Commandes from "../screens/Commandes";
+import Map from "../screens/Map";
+
+import Clients from "../screens/admin/Clients";
+import AjoutClient from "../screens/admin/AjoutClient";
 // drawer
 import CustomDrawerContent from "./Menu";
 
 // header for screens
 import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
+import ShowClient from "../screens/admin/ShowClient";
 
 const { width } = Dimensions.get("screen");
 
@@ -166,12 +171,12 @@ function HomeStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
-        name="Home"
+        name="Accueil"
         component={Home}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="Home"
+              title="Accueil"
               search
               // options
               navigation={navigation}
@@ -184,6 +189,23 @@ function HomeStack(props) {
       <Stack.Screen
         name="Pro"
         component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              white
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="Map"
+        component={Map}
         options={{
           header: ({ navigation, scene }) => (
             <Header
@@ -222,7 +244,7 @@ function HomeStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="shopping Cart"
+              title="Panier"
               back
               hasActions
               transparent
@@ -257,7 +279,6 @@ function HomeStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Commandes"
-              back
               hasActions
               navigation={navigation}
               scene={scene}
@@ -270,6 +291,57 @@ function HomeStack(props) {
   );
 }
 
+function ClientsStack(props) {
+  return (
+    <Stack.Navigator initialRouteName="Clients" mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Clients"
+        component={Clients}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Clients"
+              //search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="AjoutClient"
+        component={AjoutClient}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Ajout client"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="ShowClient"
+        component={ShowClient}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="client detail"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
@@ -288,6 +360,7 @@ export default function OnboardingStack(props) {
         }}
       />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen name="Admin" component={AdminStack} />
     </Stack.Navigator>
   );
 }
@@ -328,6 +401,42 @@ function AppStack(props) {
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+    </Drawer.Navigator>
+  );
+}
+
+function AdminStack(props) {
+  return (
+    <Drawer.Navigator
+      style={{ flex: 1 }}
+      drawerContent={(props) => <CustomDrawerContent isAdmin {...props} />}
+      drawerStyle={{
+        backgroundColor: "white",
+        width: width * 0.8,
+      }}
+      drawerContentOptions={{
+        activeTintcolor: "white",
+        inactiveTintColor: "#000",
+        activeBackgroundColor: "transparent",
+        itemStyle: {
+          width: width * 0.75,
+          backgroundColor: "transparent",
+          paddingVertical: 16,
+          paddingHorizonal: 12,
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+          overflow: "hidden",
+        },
+        labelStyle: {
+          fontSize: 18,
+          marginLeft: 12,
+          fontWeight: "normal",
+        },
+      }}
+      initialRouteName="Clients"
+    >
+      <Drawer.Screen name="Clients" component={ClientsStack} />
     </Drawer.Navigator>
   );
 }

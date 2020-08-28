@@ -12,10 +12,13 @@ function CustomDrawerContent({
   profile,
   focused,
   state,
+  isAdmin,
   ...rest
 }) {
   const insets = useSafeArea();
-  const screens = ["Home", "Elements", "Articles"];
+  const screens = isAdmin
+    ? ["Clients"]
+    : ["Accueil", "Elements", "Articles", "Commandes"];
   return (
     <Block
       style={styles.container}

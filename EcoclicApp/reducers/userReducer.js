@@ -3,11 +3,15 @@ const initialState = {
   username: "",
   password: "",
   isLoading: false,
+  userId: "",
   errorMessage: [],
   isLogged: false,
   errorOrNot: false,
   token: "",
   expired: true,
+  ////////////////////////////////////user's articles
+  articles: [],
+  articleIsLoading: false,
 };
 export default userReducer = (state = initialState, action) => {
   let nextState;
@@ -30,7 +34,7 @@ export default userReducer = (state = initialState, action) => {
         errorMessage: [],
       });
     case ACTION_TYPES.LOGIN_FAILURE:
-      console.log("favki");
+      console.log("LOGIN_FAILURE");
       return (nextState = {
         ...state,
         isLoading: false,
@@ -38,6 +42,30 @@ export default userReducer = (state = initialState, action) => {
         errorOrNot: true,
         isLogged: false,
       });
+    /* getting articles fro the connected use*/
+
+    case ACTION_TYPES.GET_ARTICLE_START:
+      console.log("articles getting is starting in reducer");
+      return (nextStat = {
+        ...state,
+        articleIsLoading: true,
+      });
+    case ACTION_TYPES.GET_ARTICLE_SUCCESS:
+      console.log(JSON.stringify(action.payload.data));
+      return (nextState = {
+        ...state,
+        articleIsLoading: false,
+        articles: action.payload.data,
+      });
+    case ACTION_TYPES.GET_ARTICLE_FAILURE:
+      console.log("get articles failed reducer");
+
+      return (nextState = {
+        ...state,
+        articleIsLoading: false,
+        articles: [],
+      });
+
     default:
       return state;
   }

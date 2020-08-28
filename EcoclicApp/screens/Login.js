@@ -27,8 +27,12 @@ class Login extends React.Component {
     const { navigation } = this.props;
     if (this.props.isLogged) navigation.replace("App");
 
-    if (this.props.errorOrNot == true)
-      Alert.alert(this.props.error.response.data.error);
+    if (this.props.errorOrNot == true) {
+      if (this.props.error) Alert.alert(this.props.error.response.data);
+      else {
+        Alert.alert(this.props.error.Error);
+      }
+    }
 
     return (
       <Block flex middle>
