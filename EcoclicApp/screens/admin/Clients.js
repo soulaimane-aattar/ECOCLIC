@@ -71,49 +71,47 @@ export default class Clients extends React.Component {
     const gradientColors = index % 2 ? GRADIENT_BLUE : GRADIENT_PINK;
 
     return (
-      <TouchableOpacity
+      <Block
+        row
+        center
+        card
+        shadow
+        space="between"
+        style={styles.card}
         key={client.id}
-        onPress={() => navigation.navigate("ShowClient", { client: client })}
       >
-        <Block
-          row
-          center
-          card
-          shadow
-          space="between"
-          style={styles.card}
-          key={client.id}
+        <Gradient
+          start={[0.45, 0.45]}
+          end={[0.9, 0.9]}
+          colors={gradientColors}
+          style={[styles.gradient, styles.left]}
         >
-          <Gradient
-            start={[0.45, 0.45]}
-            end={[0.9, 0.9]}
-            colors={gradientColors}
-            style={[styles.gradient, styles.left]}
-          >
-            <Icon
-              size={BASE_SIZE * 1.8}
-              name="user"
-              color={COLOR_WHITE}
-              family="Feather"
-            />
-          </Gradient>
+          <Icon
+            size={BASE_SIZE * 1.8}
+            name="user"
+            color={COLOR_WHITE}
+            family="Feather"
+          />
+        </Gradient>
 
-          <Block flex>
-            <Text size={BASE_SIZE * 1.125}>{client.intituler}</Text>
-            <Text size={BASE_SIZE * 0.875} muted>
-              {client.codeClient}
-            </Text>
-          </Block>
-          <Button style={styles.right}>
-            <Icon
-              size={BASE_SIZE * 2}
-              name="chevron-right"
-              family="Entypo"
-              color={COLOR_GREY}
-            />
-          </Button>
+        <Block flex>
+          <Text size={BASE_SIZE * 1.125}>{client.intituler}</Text>
+          <Text size={BASE_SIZE * 0.875} muted>
+            {client.codeClient}
+          </Text>
         </Block>
-      </TouchableOpacity>
+        <Button
+          style={styles.right}
+          onPress={() => navigation.navigate("ShowClient", { client: client })}
+        >
+          <Icon
+            size={BASE_SIZE * 2}
+            name="chevron-right"
+            family="Entypo"
+            color={COLOR_GREY}
+          />
+        </Button>
+      </Block>
     );
   };
   renderCards = () => cards.map((card, index) => this.renderCard(card, index));

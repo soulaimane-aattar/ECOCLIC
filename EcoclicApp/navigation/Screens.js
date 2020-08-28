@@ -22,6 +22,7 @@ import Login from "../screens/Login";
 import Notifications from "../screens/Notifications";
 import Commandes from "../screens/Commandes";
 import Map from "../screens/Map";
+import Documents from "../screens/Documents";
 
 import Clients from "../screens/admin/Clients";
 import AjoutClient from "../screens/admin/AjoutClient";
@@ -291,6 +292,23 @@ function HomeStack(props) {
   );
 }
 
+function DocumentsStack(props) {
+  return (
+    <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Documents"
+        component={Documents}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Documents" navigation={navigation} scene={scene} />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function ClientsStack(props) {
   return (
     <Stack.Navigator initialRouteName="Clients" mode="card" headerMode="screen">
@@ -401,6 +419,7 @@ function AppStack(props) {
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+      <Drawer.Screen name="Documents" component={DocumentsStack} />
     </Drawer.Navigator>
   );
 }
