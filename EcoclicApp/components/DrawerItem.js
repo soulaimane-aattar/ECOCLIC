@@ -75,6 +75,15 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : "rgba(0,0,0,0.5)"}
           />
         );
+      case "Documents":
+        return (
+          <Icon
+            name="file1"
+            family="AntDesign"
+            size={14}
+            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
+          />
+        );
       default:
         return null;
     }

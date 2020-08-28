@@ -32,6 +32,7 @@ export default {
   },
   SIZES: {
     BASE: 16,
+    MEDIUM: 20,
     FONT: 16,
     OPACITY: 0.8,
   },
