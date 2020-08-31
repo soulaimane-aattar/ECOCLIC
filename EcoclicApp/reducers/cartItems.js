@@ -1,3 +1,4 @@
+import ACTION_TYPES from "../actios/acctionTypes";
 const cardItems = (state = [], action) => {
   const item = action.payload;
   switch (action.type) {
@@ -17,6 +18,8 @@ const cardItems = (state = [], action) => {
       return state.map((p) =>
         p.id === item.id ? { ...p, quantity: quantity } : p
       );
+    case ACTION_TYPES.CHECKOUT_SUCCESS:
+      return [];
   }
   return state;
 };
