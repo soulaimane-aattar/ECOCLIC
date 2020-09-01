@@ -10,7 +10,8 @@ import {
 } from "typeorm";
 import { Length, IsNotEmpty, IsString, IsPositive } from "class-validator";
 import { User } from "./User";
-import { F_docentite } from "./F_docentete";
+import { F_docentete } from "./F_docentete";
+import { F_docligne } from "./F_docligne";
 
 @Entity()
 @Unique(["articleId"])
@@ -34,17 +35,17 @@ export class F_article {
   @IsString()
   articleDescription: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(4, 20)
   @IsString()
   articleRef: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(4, 100)
   @IsPositive()
   articlePrice: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(4, 100)
   articleCodeBare: string;
 
@@ -59,6 +60,9 @@ export class F_article {
   @ManyToOne((type) => User, (user) => user.f_articles)
   user: User;
 
-  @OneToMany((type) => F_docentite, (docentite) => docentite.f_article)
-  public f_docentites: F_docentite[];
+  @OneToMany((type) => F_docentete, (docentite) => docentite.f_article)
+  public f_docentete: F_docentete[];
+
+  @OneToMany((type) => F_docligne, (docligne) => docligne.f_article)
+  public f_docligne: F_docligne[];
 }

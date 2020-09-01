@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from "typeorm";
 import {
   Length,
@@ -16,10 +17,11 @@ import {
 } from "class-validator";
 import { F_docligne } from "./F_docligne";
 import { F_article } from "./F_article";
+import { User } from "./User";
 
 @Entity()
 @Unique(["docentiteId"])
-export class F_docentite {
+export class F_docentete {
   @PrimaryGeneratedColumn()
   docentiteId: number;
 
@@ -43,9 +45,12 @@ export class F_docentite {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne((type) => F_docligne, (docligne) => docligne.f_docentites)
-  f_docligne: F_docligne;
+  @ManyToOne((type) => User, (user) => user.f_doclignes)
+  user: User;
 
-  @ManyToOne((type) => F_article, (article) => article.f_docentites)
+  @OneToMany((type) => F_docligne, (docligne) => docligne.f_docentete)
+  public f_docligne: F_docligne[];
+
+  @ManyToOne((type) => F_article, (article) => article.f_docentete)
   f_article: F_article;
 }

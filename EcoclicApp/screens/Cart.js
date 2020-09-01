@@ -21,7 +21,7 @@ const CardItem = (props) => {
   const { item, removeItemFromCart, changeItemQuantity } = props;
   //console.log("item", item);
   return (
-    <Block style={{ marginBottom: 30 }}>
+    <Block>
       <Block card flex style={[styles.cardItem, styles.shadow]}>
         <Block row style={{ backgroundColor: theme.COLORS.WHITE }}>
           <Image source={{ uri: item.articlePhoto }} style={styles.img} />
@@ -77,7 +77,15 @@ class Cart extends React.Component {
     const { navigation } = this.props;
     const checkoutCard = () => {
       console.log("cardItems", this.props.cartItems);
-      this.props.checkoutCard(this.props.token, this.props.cartItems);
+      const products = this.props.cartItems.map((p) => {
+        return {
+          quantity: p.quantity,
+          articleId: p.articleId,
+          articlePrice: p.articlePrice,
+        };
+      });
+
+      this.props.checkoutCard(this.props.token, products);
       navigation.navigate("Commandes");
     };
     return (
