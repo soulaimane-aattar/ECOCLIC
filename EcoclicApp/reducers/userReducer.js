@@ -9,6 +9,7 @@ const initialState = {
   errorOrNot: false,
   token: "",
   expired: true,
+  role: "",
   ////////////////////////////////////user's articles
   articles: [],
   articleIsLoading: false,
@@ -25,13 +26,17 @@ export default userReducer = (state = initialState, action) => {
         errorOrNot: false,
       });
     case ACTION_TYPES.LOGIN_SUCCESS:
+      console.log("login success");
+      console.log(action.payload.data.role.roleName);
+
       return (nextState = {
         ...state,
-        token: action.payload.data,
+        token: action.payload.data.token,
         isLoading: false,
         isLogged: true,
         errorOrNot: false,
         errorMessage: [],
+        role: action.payload.data.role.roleName,
       });
     case ACTION_TYPES.LOGIN_FAILURE:
       console.log("LOGIN_FAILURE");
@@ -41,6 +46,7 @@ export default userReducer = (state = initialState, action) => {
         errorMessage: action.payload,
         errorOrNot: true,
         isLogged: false,
+        role: "",
       });
     /* getting articles fro the connected use*/
 

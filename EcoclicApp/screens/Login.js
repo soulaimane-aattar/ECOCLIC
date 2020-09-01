@@ -11,13 +11,14 @@ import { Block, Checkbox, theme } from "galio-framework";
 import * as yup from "yup";
 import { Formik } from "formik";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AntIcon from "react-native-vector-icons/AntDesign";
 import { Input } from "react-native-elements";
 import { TextInput, Text, Alert, ActivityIndicator } from "react-native";
 import { Images, argonTheme } from "../constants";
 import { Button } from "react-native-elements";
 const { width, height } = Dimensions.get("screen");
 import * as actions from "../actios/actionCreator";
-
+import { CheckBox } from "react-native-elements";
 class Login extends React.Component {
   render() {
     this.state = {
@@ -25,7 +26,16 @@ class Login extends React.Component {
       password: "",
     };
     const { navigation } = this.props;
-    if (this.props.isLogged) navigation.replace("App");
+    // if (this.props.isLogged) {navigation.replace("App");
+    if (this.props.isLogged) {
+      switch (this.props.role) {
+        case "ADMIN":
+          navigation.navigate("Admin");
+          break;
+        default:
+          navigation.navigate("App");
+      }
+    }
 
     if (this.props.errorOrNot == true) {
       if (this.props.error) Alert.alert(this.props.error.response.data);
@@ -73,7 +83,13 @@ class Login extends React.Component {
                       leftIcon={<Icon name="user" size={24} color="black" />}
                     />
                     {touched.username && errors.username && (
-                      <Text style={{ fontSize: 10, color: "red" }}>
+                      <Text
+                        style={{
+                          marginLeft: width * 0.1,
+                          fontSize: 12,
+                          color: "red",
+                        }}
+                      >
                         {errors.username}
                       </Text>
                     )}
@@ -83,15 +99,41 @@ class Login extends React.Component {
                       placeholder="Password"
                       onBlur={() => setFieldTouched("password")}
                       secureTextEntry={true}
+                      leftIcon={
+                        <Icon
+                          name="key"
+                          type="font-awesome"
+                          size={24}
+                          color="black"
+                        />
+                      }
                     />
                     {touched.password && errors.password && (
-                      <Text style={{ fontSize: 10, color: "red" }}>
+                      <Text
+                        style={{
+                          marginLeft: width * 0.1,
+                          fontSize: 12,
+                          color: "red",
+                        }}
+                      >
                         {errors.password}
                       </Text>
                     )}
+
                     <Button
+                      icon={
+                        <AntIcon
+                          name="login"
+                          type="ant-design"
+                          size={15}
+                          color="black"
+                        />
+                      }
+                      // type="outline"
                       title="login"
-                      disabled={!isValid}
+                      titleStyle={styles.titleStyle}
+                      buttonStyle={styles.createButton}
+                      // disabled={Array.length == 0 ? true : false}
                       onPress={() => handleSubmit()}
                     />
                     {this.props.isLoading ? <ActivityIndicator /> : null}
@@ -112,6 +154,7 @@ const mapStateToProps = (state) => {
     isLoading: state.userReducer.isLoading,
     error: state.userReducer.errorMessage,
     errorOrNot: state.userReducer.errorOrNot,
+    role: state.userReducer.role,
   };
 };
 
@@ -169,7 +212,16 @@ const styles = StyleSheet.create({
   },
   createButton: {
     width: width * 0.5,
-    marginTop: 25,
+    // marginTop: 25,
+    marginTop: 9,
+    marginLeft: width * 0.2,
+    color: "black",
+  },
+  titleStyle: {
+    color: "black",
+  },
+  checkStyle: {
+    color: "#F4F5F7",
   },
 });
 export default connect(mapStateToProps)(Login);

@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import { Icon } from "../../components";
 import { argonTheme } from "../../constants";
-
+import * as actions from "../../actios/actionCreator";
 import { LinearGradient as Gradient } from "expo-linear-gradient";
 const { width } = Dimensions.get("screen");
-
+import { connect } from "react-redux";
 const BASE_SIZE = theme.SIZES.BASE;
 const GRADIENT_BLUE = ["#6B84CA", "#8F44CE"];
 const GRADIENT_PINK = ["#D442F8", "#B645F5", "#9B40F8"];
@@ -65,7 +65,11 @@ const ClientItem = ({ item }) => {
   );
 };
 
-export default class Clients extends React.Component {
+class Clients extends React.Component {
+  componentDidMount() {
+    console.log("je suis sur la page clien");
+    this.props.dispatch(actions.getAllClients(this.props.token));
+  }
   renderCard = (client, index) => {
     const { navigation } = this.props;
     const gradientColors = index % 2 ? GRADIENT_BLUE : GRADIENT_PINK;
@@ -78,7 +82,7 @@ export default class Clients extends React.Component {
         shadow
         space="between"
         style={styles.card}
-        key={client.id}
+        key={client.userId}
       >
         <Gradient
           start={[0.45, 0.45]}
@@ -95,9 +99,9 @@ export default class Clients extends React.Component {
         </Gradient>
 
         <Block flex>
-          <Text size={BASE_SIZE * 1.125}>{client.intituler}</Text>
+          <Text size={BASE_SIZE * 1.125}>{client.username}</Text>
           <Text size={BASE_SIZE * 0.875} muted>
-            {client.codeClient}
+            {client.compteIntitule}
           </Text>
         </Block>
         <Button
@@ -114,7 +118,9 @@ export default class Clients extends React.Component {
       </Block>
     );
   };
-  renderCards = () => cards.map((card, index) => this.renderCard(card, index));
+  // renderCards = () => cards.map((card, index) => this.renderCard(card, index));
+  renderCards = () =>
+    this.props.clients.map((client, index) => this.renderCard(client, index));
   render() {
     const { navigation } = this.props;
 
@@ -181,6 +187,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = (state) => {
+  return {
+    clients: state.adminReducer.clients,
+    clientsIsLoading: state.adminReducer.clientsIsLoading,
+    errorLoadingClients: state.adminReducer.errorLoadingClients,
+    token: state.userReducer.token,
+  };
+};
+
 /*      
      <FlatList
             data={dataClient}
@@ -205,3 +220,4 @@ const styles = StyleSheet.create({
           </Block>
     
     */
+export default connect(mapStateToProps)(Clients);
