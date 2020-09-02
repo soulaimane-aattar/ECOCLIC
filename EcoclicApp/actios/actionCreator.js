@@ -136,15 +136,37 @@ export const addClient = (token, client) => {
           type: ACTION_TYPES.ADD_CLIENT_SUCCESS,
           payload: { responce, client },
         });
-        console.log("client added in action creator");
       })
       .catch((error) => {
         dispatch({
           type: ACTION_TYPES.ADD_CLIENT_FAILURE,
           payload: error,
         });
-        console.log("cleint add faliure in action creator");
-        console.log(error);
+      });
+  };
+};
+/********************************************************delette client to database action creator */
+
+export const deletteClient = (token, client) => {
+  return (dispatch, getState) => {
+    dispatch({ type: ACTION_TYPES.DELETTE_CLIENT_START });
+    axios
+      .delete("http://localhost:3000/user/" + client.userId, {
+        headers: { auth: token },
+      })
+
+      .then((responce) => {
+        console.log(responce);
+        dispatch({
+          type: ACTION_TYPES.DELETTE_CLIENT_SUCCESS,
+          payload: { responce, client },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: ACTION_TYPES.DELETTE_CLIENT_FAILURE,
+          payload: error,
+        });
       });
   };
 };

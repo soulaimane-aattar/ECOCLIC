@@ -22,6 +22,14 @@ const ACTION_TYPES = {
   ADD_CLIENT_START: "ADD_CLIENT_START",
   ADD_CLIENT_SUCCESS: "ADD_CLIENT_SUCCESS",
   ADD_CLIENT_FAILURE: "ADD_CLIENT_FAILURE",
+  /********************************************DELETTE client*********************/
+  DELETTE_CLIENT_START: "DELETTE_CLIENT_START",
+  DELETTE_CLIENT_SUCCESS: "DELETTE_CLIENT_SUCCESS",
+  DELETTE_CLIENT_FAILURE: "DELETTE_CLIENT_FAILURE",
+  /********************************************EDIT client/********************************************/
+  EDIT_CLIENT_START: "EDIT_CLIENT_START",
+  EDIT_CLIENT_SUCCESS: "EDIT_CLIENT_SUCCESS",
+  EDIT_CLIENT_FAILURE: "EDIT_CLIENT_FAILURE",
 
   /****************************************************get all company action type ***********/
   GET_COMPANY_START: "GET_COMPANY_START",

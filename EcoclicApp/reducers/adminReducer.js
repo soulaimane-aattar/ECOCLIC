@@ -19,6 +19,8 @@ const initialState = {
   errorLoadingcompanies: false,
   roles: [],
   errorLoadingRoles: false,
+  ///******************************************* delete client**********/
+  supprime: false,
 };
 export default adminReducer = (state = initialState, action) => {
   /***********************************************************action get all cleints from database**************************************/
@@ -67,6 +69,22 @@ export default adminReducer = (state = initialState, action) => {
         ...state,
         messageAddClient: action.payload.data,
         added: false,
+      });
+      break;
+    /*********************************************************Add client to database********************************** */
+    case ACTION_TYPES.DELETTE_CLIENT_SUCCESS:
+      return (nextState = {
+        ...state,
+        supprime: true,
+        clients: [
+          ...state.clients.filter((client) => client !== action.payload.client),
+        ],
+      });
+      break;
+    case ACTION_TYPES.DELETTE_CLIENT_FAILURE:
+      return (nextState = {
+        ...state,
+        supprime: false,
       });
       break;
 
