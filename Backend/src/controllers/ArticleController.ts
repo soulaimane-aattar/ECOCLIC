@@ -5,8 +5,7 @@ import { User } from "../entity/User";
 import { F_article } from "../entity/F_article";
 
 export class ArticleController {
-
-    /******************************************************************** get all article in data base********************************************************************/
+  /******************************************************************** get all article in data base********************************************************************/
 
   static listAllArticles = async (req: Request, res: Response) => {
     const articles = await getRepository(F_article).find({
@@ -27,6 +26,7 @@ export class ArticleController {
 
     const articles = await getRepository(F_article).find({
       select: [
+        "articleId",
         "articleName",
         "articlePhoto",
         "articlePrice",
@@ -64,11 +64,7 @@ export class ArticleController {
   //   }
 
   /******************************************************************** edit article information********************************************************************/
-static editArticle = async (req:Request, res:Response) =>{
-  const idArticle:number = +req.params.id;
-  
-}
-
-
-
+  static editArticle = async (req: Request, res: Response) => {
+    const idArticle: number = +req.params.id;
+  };
 }

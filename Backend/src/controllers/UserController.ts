@@ -3,25 +3,31 @@ import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 
 import { User } from "../entity/User";
+import { Role } from "../entity/Role";
 
 export class UserController {
   static listAll = async (req: Request, res: Response) => {
-    //Get users from database
-    const userRepository = getRepository(User);
-    const users = await userRepository.find({
-      select: [
+    const users = await getRepository(User)
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.f_compte", "fcompte")
+      .leftJoinAndSelect("user.role", "role")
+      .select([
         "userId",
         "username",
-        "role",
         "userFirstName",
         "userLastName",
-        "updatedAt",
-        "createdAt",
-      ], //We dont want to send the passwords on response
-    });
+        "user.createdAt",
+        "user.updatedAt",
+        "compteIntitule",
+        "compteNum",
+        "userPhoto",
+        "roleName",
+      ])
+      .getRawMany();
 
     //Send the users object
     res.send(users);
+    console.log("users se");
   };
 
   static getOneById = async (req: Request, res: Response) => {
@@ -50,7 +56,15 @@ export class UserController {
 
   static newUser = async (req: Request, res: Response) => {
     //Get parameters from the body
-    let { username, password, role, userFirstName, userLastName } = req.body;
+    let {
+      username,
+      password,
+      role,
+      userFirstName,
+      userLastName,
+      societe,
+    } = req.body;
+
     let user = new User();
     user.username = username;
     user.userPassword = password;
@@ -59,7 +73,7 @@ export class UserController {
     user.userPhoto = "6hjhjhh.png";
     user.userLastName = userLastName;
     user.userFirstName = userFirstName;
-    user.role = role;
+    (user.f_compte = societe), (user.role = role);
 
     //Validade if the parameters are ok
     const errors = await validate(user);
@@ -76,12 +90,12 @@ export class UserController {
     try {
       await userRepository.save(user);
     } catch (e) {
-      res.status(409).send("username already in use");
+      res.status(409).send("username deja utilise");
       return;
     }
 
     //If all ok, send 201 response
-    res.status(201).send("the user is inserted succefully");
+    res.send("client ajoute avec succes");
   };
 
   static editUser = async (req: Request, res: Response) => {
@@ -128,19 +142,34 @@ export class UserController {
 
   static deleteUser = async (req: Request, res: Response) => {
     //Get the ID from the url
-    const id = req.params.id;
+    const id = +req.params.id;
+    console.log("id : " + id);
 
     const userRepository = getRepository(User);
     let user: User;
     try {
-      user = await userRepository.findOneOrFail(id);
+      user = await userRepository.findOneOrFail({ userId: id });
     } catch (error) {
-      res.status(404).send("User not found");
+      console.log("probleme in ");
+      res.status(404);
+      res.send("utilisateur non trouvé");
       return;
     }
     userRepository.delete(id);
 
     //After all send a 204 (no content, but accepted) response
     res.status(204).send();
+  };
+
+  static getRoles = async (req: Request, res: Response) => {
+    let roles;
+    try {
+      roles = await getRepository(Role).find({
+        select: ["roleId", "roleName"],
+      });
+      res.send(roles);
+    } catch (error) {
+      res.status(401).send("essayer une autre fois");
+    }
   };
 }

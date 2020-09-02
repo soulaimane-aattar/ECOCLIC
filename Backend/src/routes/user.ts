@@ -32,4 +32,6 @@ router.delete(
   UserController.deleteUser
 );
 
+router.get("/roles", [checkJwt, checkRole(["ADMIN"])], UserController.getRoles);
+
 export default router;
