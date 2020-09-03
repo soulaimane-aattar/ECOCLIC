@@ -14,7 +14,7 @@ class Home extends React.Component {
     this.props.dispatch(actions.getArticlesForThatUser(this.props.token));
   }
   renderArticles = () => {
-    console.log(this.props.articles);
+    // console.log(this.props.articles);
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}

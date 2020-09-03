@@ -19,7 +19,6 @@ const { width } = Dimensions.get("screen");
 //  <Block flex style={(styles.imgContainer, styles.shadow)}>
 const CardItem = (props) => {
   const { item, removeItemFromCart, changeItemQuantity } = props;
-  //console.log("item", item);
   return (
     <Block>
       <Block card flex style={[styles.cardItem, styles.shadow]}>
@@ -76,7 +75,6 @@ class Cart extends React.Component {
   renderArticles = () => {
     const { navigation } = this.props;
     const checkoutCard = () => {
-      console.log("cardItems", this.props.cartItems);
       const products = this.props.cartItems.map((p) => {
         return {
           quantity: p.quantity,
@@ -157,6 +155,7 @@ const styles = StyleSheet.create({
     paddingVertical: theme.SIZES.BASE,
   },
   checkout: {
+    width: width,
     marginBottom: 14,
     marginTop: 20,
   },

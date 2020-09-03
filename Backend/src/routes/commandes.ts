@@ -5,9 +5,7 @@ import { CommandesController } from "../controllers/CommandesController";
 
 const router = Router();
 
-//Get all articles a specific user
-//router.get("/", [checkJwt], ArticleController.getClientCommandes);
-
 router.post("/new", [checkJwt], CommandesController.newCommande);
+router.get("/", [checkJwt], CommandesController.getUserCommandes);
 
 export default router;

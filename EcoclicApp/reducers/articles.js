@@ -8,7 +8,7 @@ const initialState = {
 const article = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.GET_ARTICLE_START:
-      console.log("articles getting is starting in reducer");
+      // console.log("articles getting is starting in reducer");
       return (nextState = {
         ...state,
         loading: true,
@@ -21,8 +21,6 @@ const article = (state = initialState, action) => {
         articles: action.payload.data,
       });
     case ACTION_TYPES.GET_ARTICLE_FAILURE:
-      console.log("get articles failed reducer");
-
       return (nextState = {
         ...state,
         loading: false,
