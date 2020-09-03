@@ -42,7 +42,13 @@ class Card extends React.Component {
     ];
 
     return (
-      <Block row={horizontal} card flex style={cardContainer}>
+      <Block
+        row={horizontal}
+        card
+        flex
+        style={cardContainer}
+        key={item.articleId}
+      >
         <TouchableWithoutFeedback
           onPress={() => navigation.navigate("Product", { product: item })}
         >

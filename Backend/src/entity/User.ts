@@ -13,6 +13,7 @@ import * as bcrypt from "bcryptjs";
 import { F_comptet } from "./F_comptet";
 import { F_docligne } from "./F_docligne";
 import { F_article } from "./F_article";
+import { F_docentete } from "./F_docentete";
 import { Role } from "./Role";
 
 @Entity()
@@ -31,7 +32,7 @@ export class User {
   @IsNotEmpty()
   userPassword: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(4, 100)
   userPhoto: string;
 
@@ -47,11 +48,11 @@ export class User {
   @IsString()
   userLastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(4, 20)
   positionLatitude: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(4, 20)
   positionLangitude: string;
 
@@ -71,6 +72,9 @@ export class User {
 
   @OneToMany((type) => F_article, (article) => article.user)
   f_articles: F_article[];
+
+  @OneToMany((type) => F_docentete, (docentete) => docentete.user)
+  F_docentete: F_docentete[];
 
   @ManyToOne((type) => Role, (role) => role.users)
   role: Role;

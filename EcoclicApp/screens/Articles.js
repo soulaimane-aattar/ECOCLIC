@@ -12,6 +12,7 @@ import { Block, Text, theme } from "galio-framework";
 //argon
 import { articles, Images, argonTheme } from "../constants/";
 import { Card } from "../components/";
+import { connect } from "react-redux";
 
 const { width } = Dimensions.get("screen");
 
@@ -121,6 +122,18 @@ class Articles extends React.Component {
     );
   };
 
+  renderCardsTemp = () => {
+    return (
+      <Block flex style={styles.group}>
+        <Block flex>
+          {this.props.articles.map((article, idx) => (
+            <Card item={article} idx={idx} horizontal /*={idx % 3 == 0}*/ />
+          ))}
+        </Block>
+      </Block>
+    );
+  };
+
   renderAlbum = () => {
     const { navigation } = this.props;
 
@@ -168,6 +181,7 @@ class Articles extends React.Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* {this.renderCards()}
           {this.renderAlbum()} */}
+          {this.renderCardsTemp()}
         </ScrollView>
       </Block>
     );
@@ -183,6 +197,8 @@ const styles = StyleSheet.create({
   },
   group: {
     paddingTop: theme.SIZES.BASE,
+    //
+    width: width - 20,
   },
   albumThumb: {
     borderRadius: 4,
@@ -229,5 +245,10 @@ const styles = StyleSheet.create({
     // paddingBottom: theme.SIZES.BASE * 2,
   },
 });
+const mapStateToProps = (state) => {
+  return {
+    articles: state.articles.articles,
+  };
+};
 
-export default Articles;
+export default connect(mapStateToProps)(Articles);

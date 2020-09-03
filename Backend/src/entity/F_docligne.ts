@@ -8,9 +8,10 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
-import { Length, IsNotEmpty, IsString } from "class-validator";
+import { Length, IsNotEmpty, IsString, IsInt } from "class-validator";
 import { User } from "./User";
-import { F_docentite } from "./F_docentete";
+import { F_docentete } from "./F_docentete";
+import { F_article } from "./F_article";
 
 @Entity()
 @Unique(["docligneId"])
@@ -18,11 +19,15 @@ export class F_docligne {
   @PrimaryGeneratedColumn()
   docligneId: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(4, 20)
-  @IsNotEmpty()
   @IsString()
   docligneNumero: string;
+
+  @Column({ nullable: true })
+  @Length(4, 20)
+  @IsInt()
+  quantite: number;
 
   @Column()
   @CreateDateColumn()
@@ -35,6 +40,9 @@ export class F_docligne {
   @ManyToOne((type) => User, (user) => user.f_doclignes)
   user: User;
 
-  @OneToMany((type) => F_docentite, (docentite) => docentite.f_docligne)
-  public f_docentites: F_docentite[];
+  @ManyToOne((type) => F_docentete, (docentite) => docentite.f_docligne)
+  f_docentete: F_docentete;
+
+  @ManyToOne((type) => F_article, (article) => article.f_docligne)
+  f_article: F_article;
 }

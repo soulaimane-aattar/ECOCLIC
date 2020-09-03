@@ -41,5 +41,6 @@ const ACTION_TYPES = {
   GET_ROLES_FAILURE: "GET_ROLES_FAILURE",
   /*****************************************************help methode ********* */
   UPDATE_STATE: "UPDATE_STATE",
+  CHECKOUT_SUCCESS: "CHECKOUT_SUCCESS",
 };
 export default ACTION_TYPES;

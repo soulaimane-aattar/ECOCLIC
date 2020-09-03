@@ -10,6 +10,7 @@ export class ArticleController {
   static listAllArticles = async (req: Request, res: Response) => {
     const articles = await getRepository(F_article).find({
       select: [
+        "articleId",
         "articleName",
         "articlePhoto",
         "articlePrice",
@@ -34,10 +35,10 @@ export class ArticleController {
       ],
       where: [{ user: idUser }],
     });
+    // to remove trow erreur in App 
     if (Object.keys(articles).length == 0) {
       res.send("il y'a aucun article lier à votre compte");
     }
-
     res.send(articles);
   };
 

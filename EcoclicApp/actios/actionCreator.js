@@ -1,13 +1,11 @@
 import axios from "axios";
 import ACTION_TYPES from "./acctionTypes";
+const BASE_URL = "http://localhost:3000";
 export const login = (values) => {
   return (dispatch, getState) => {
     dispatch({ type: ACTION_TYPES.LOGIN_START });
-    console.log("loggin start");
-    console.log(values);
-
     axios
-      .post("http://localhost:3000/auth/login", {
+      .post(BASE_URL + "/auth/login", {
         username: values.username,
         password: values.password,
       })
@@ -28,11 +26,12 @@ export const getArticlesForThatUser = (token) => {
   return (dispatch, getState) => {
     dispatch({ type: ACTION_TYPES.GET_ARTICLE_START });
     axios
-      .get("http://localhost:3000/article/my_article", {
+      .get(BASE_URL + "/article/my_article", {
         headers: { auth: token },
       })
       .then((responce) => {
         console.log("article get succefully in action creator");
+        // console.log(responce);
         dispatch({
           type: ACTION_TYPES.GET_ARTICLE_SUCCESS,
           payload: responce,
@@ -167,6 +166,26 @@ export const deletteClient = (token, client) => {
           type: ACTION_TYPES.DELETTE_CLIENT_FAILURE,
           payload: error,
         });
+      });
+  };
+};
+export const checkoutCard = (token, products) => {
+  console.log("poroducts ", { products: products });
+  return (dispatch, getState) => {
+    axios
+      .post(
+        BASE_URL + "/commmandes/new",
+        { products: products },
+        {
+          headers: { auth: token },
+        }
+      )
+      .then((responce) => {
+        console.log(responce);
+        dispatch({ type: ACTION_TYPES.CHECKOUT_SUCCESS });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 };

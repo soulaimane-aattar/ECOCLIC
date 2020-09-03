@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { StyleSheet, Dimensions, Alert, View } from "react-native";
+import { StyleSheet, Dimensions, Alert, View, ScrollView } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { Button, Input } from "react-native-elements";
 // import { Input } from "../../components";
@@ -29,206 +29,226 @@ class AjoutClient extends React.Component {
     };
     let added = this.props.added;
     const { navigation } = this.props;
+
     return (
-      <Block flex>
-        <Block style={styles.container}>
-          <Formik
-            initialValues={this.state}
-            onSubmit={(values) => {
-              this.props.dispatch(actions.addClient(this.props.token, values));
-              if (added) {
-                Alert.alert(this.props.messageAddClient);
-              }
-            }}
-            validationSchema={validationSchema}
-          >
-            {({
-              values,
-              handleChange,
-              errors,
-              setFieldTouched,
-              touched,
-              isValid,
-              handleSubmit,
-              setFieldValue,
-            }) => (
-              <Fragment>
-                <Input
-                  inputContainerStyle={styles.inputStyle}
-                  value={values.username}
-                  onChangeText={handleChange("username")}
-                  onBlur={() => setFieldTouched("username")}
-                  placeholder="username"
-                  leftIcon={<Icon name="user" size={24} color="black" />}
-                />
-                {touched.username && errors.username && (
-                  <Text style={styles.errorStyle}>{errors.username}</Text>
-                )}
-                <Input
-                  inputContainerStyle={styles.inputStyle}
-                  secureTextEntry={true}
-                  value={values.password}
-                  onChangeText={handleChange("password")}
-                  onBlur={() => setFieldTouched("password")}
-                  placeholder="mot de passe"
-                  leftIcon={
-                    <Icon
-                      name="key"
-                      type="font-awesome"
-                      size={24}
-                      color="black"
-                    />
-                  }
-                />
-                {touched.password && errors.password && (
-                  <Text
-                    style={{
-                      marginLeft: width * 0.1,
-                      fontSize: 12,
-                      color: "red",
-                    }}
-                  >
-                    {errors.password}
-                  </Text>
-                )}
-                <Input
-                  inputContainerStyle={styles.inputStyle}
-                  secureTextEntry={true}
-                  value={values.checkPassword}
-                  onChangeText={handleChange("checkPassword")}
-                  onBlur={() => setFieldTouched("checkPassword")}
-                  placeholder="ressaisir le mot de passe"
-                  leftIcon={
-                    <Icon
-                      name="key"
-                      type="font-awesome"
-                      size={24}
-                      color="black"
-                    />
-                  }
-                />
-                {touched.checkPassword && errors.checkPassword && (
-                  <Text
-                    style={{
-                      marginLeft: width * 0.1,
-                      fontSize: 12,
-                      color: "red",
-                    }}
-                  >
-                    {errors.checkPassword}
-                  </Text>
-                )}
-                <Input
-                  inputContainerStyle={styles.inputStyle}
-                  value={values.userLastName}
-                  onChangeText={handleChange("userLastName")}
-                  onBlur={() => setFieldTouched("userLastName")}
-                  placeholder="Nom"
-                  leftIcon={<Icon name="user" size={24} color="black" />}
-                />
-                {touched.userLastName && errors.userLastName && (
-                  <Text
-                    style={{
-                      marginLeft: width * 0.1,
-                      fontSize: 12,
-                      color: "red",
-                    }}
-                  >
-                    {errors.userLastName}
-                  </Text>
-                )}
-                <Input
-                  inputContainerStyle={styles.inputStyle}
-                  value={values.userFirstName}
-                  onChangeText={handleChange("userFirstName")}
-                  onBlur={() => setFieldTouched("userFirstName")}
-                  placeholder="Prénom"
-                  leftIcon={<Icon name="user" size={24} color="black" />}
-                />
-                {touched.userFirstName && errors.userFirstName && (
-                  <Text
-                    style={{
-                      marginLeft: width * 0.1,
-                      fontSize: 12,
-                      color: "red",
-                    }}
-                  >
-                    {errors.userFirstName}
-                  </Text>
-                )}
+      <ScrollView>
+        <Block flex>
+          <Block style={styles.container}>
+            <Formik
+              initialValues={this.state}
+              onSubmit={(values) => {
+                const roleName = this.props.roles.find(
+                  (role) => role.roleId == values.role
+                ).roleName;
+                const compteIntitule = this.props.companies.find(
+                  (com) => com.compteNum == values.company
+                ).compteIntitule;
+                const vauesTosend = {
+                  ...values,
+                  roleName,
+                  compteIntitule,
+                };
 
-                <Picker
-                  selectedValue={values.company}
-                  style={{ height: 50, width: 100 }}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setFieldValue("company", itemValue);
-                  }}
-                  prompt="choisir une société"
-                >
-                  {this.props.companies.map((company) => {
-                    return (
-                      <Picker.Item
-                        label={company.compteIntitule}
-                        value={company.compteNum}
+                this.props.dispatch(
+                  actions.addClient(this.props.token, vauesTosend)
+                );
+                if (added) {
+                  Alert.alert(this.props.messageAddClient);
+                }
+              }}
+              validationSchema={validationSchema}
+            >
+              {({
+                values,
+                handleChange,
+                errors,
+                setFieldTouched,
+                touched,
+                isValid,
+                handleSubmit,
+                setFieldValue,
+              }) => (
+                <Fragment>
+                  <Input
+                    inputContainerStyle={styles.inputStyle}
+                    value={values.username}
+                    onChangeText={handleChange("username")}
+                    onBlur={() => setFieldTouched("username")}
+                    placeholder="username"
+                    leftIcon={<Icon name="user" size={24} color="black" />}
+                  />
+                  {touched.username && errors.username && (
+                    <Text style={styles.errorStyle}>{errors.username}</Text>
+                  )}
+                  <Input
+                    inputContainerStyle={styles.inputStyle}
+                    secureTextEntry={true}
+                    value={values.password}
+                    onChangeText={handleChange("password")}
+                    onBlur={() => setFieldTouched("password")}
+                    placeholder="mot de passe"
+                    leftIcon={
+                      <Icon
+                        name="key"
+                        type="font-awesome"
+                        size={24}
+                        color="black"
                       />
-                    );
-                  })}
-                </Picker>
+                    }
+                  />
+                  {touched.password && errors.password && (
+                    <Text
+                      style={{
+                        marginLeft: width * 0.1,
+                        fontSize: 12,
+                        color: "red",
+                      }}
+                    >
+                      {errors.password}
+                    </Text>
+                  )}
+                  <Input
+                    inputContainerStyle={styles.inputStyle}
+                    secureTextEntry={true}
+                    value={values.checkPassword}
+                    onChangeText={handleChange("checkPassword")}
+                    onBlur={() => setFieldTouched("checkPassword")}
+                    placeholder="ressaisir le mot de passe"
+                    leftIcon={
+                      <Icon
+                        name="key"
+                        type="font-awesome"
+                        size={24}
+                        color="black"
+                      />
+                    }
+                  />
+                  {touched.checkPassword && errors.checkPassword && (
+                    <Text
+                      style={{
+                        marginLeft: width * 0.1,
+                        fontSize: 12,
+                        color: "red",
+                      }}
+                    >
+                      {errors.checkPassword}
+                    </Text>
+                  )}
+                  <Input
+                    inputContainerStyle={styles.inputStyle}
+                    value={values.userLastName}
+                    onChangeText={handleChange("userLastName")}
+                    onBlur={() => setFieldTouched("userLastName")}
+                    placeholder="Nom"
+                    leftIcon={<Icon name="user" size={24} color="black" />}
+                  />
+                  {touched.userLastName && errors.userLastName && (
+                    <Text
+                      style={{
+                        marginLeft: width * 0.1,
+                        fontSize: 12,
+                        color: "red",
+                      }}
+                    >
+                      {errors.userLastName}
+                    </Text>
+                  )}
+                  <Input
+                    inputContainerStyle={styles.inputStyle}
+                    value={values.userFirstName}
+                    onChangeText={handleChange("userFirstName")}
+                    onBlur={() => setFieldTouched("userFirstName")}
+                    placeholder="Prénom"
+                    leftIcon={<Icon name="user" size={24} color="black" />}
+                  />
+                  {touched.userFirstName && errors.userFirstName && (
+                    <Text
+                      style={{
+                        marginLeft: width * 0.1,
+                        fontSize: 12,
+                        color: "red",
+                      }}
+                    >
+                      {errors.userFirstName}
+                    </Text>
+                  )}
 
-                <Picker
-                  selectedValue={values.role}
-                  style={{ height: 50, width: 100 }}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setFieldValue("role", itemValue);
-                  }}
-                  prompt="choisir un role"
-                >
-                  {this.props.roles.map((role) => {
-                    return (
-                      <Picker.Item label={role.roleName} value={role.roleId} />
-                    );
-                  })}
-                </Picker>
-                {/* <ModalDropdown
+                  <Picker
+                    selectedValue={values.company}
+                    style={{ height: 50, width: 100 }}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setFieldValue("company", itemValue);
+                    }}
+                    prompt="choisir une société"
+                  >
+                    {this.props.companies.map((company) => {
+                      return (
+                        <Picker.Item
+                          label={company.compteIntitule}
+                          value={company.compteNum}
+                        />
+                      );
+                    })}
+                  </Picker>
+
+                  <Picker
+                    selectedValue={values.role}
+                    style={{ height: 50, width: 100 }}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setFieldValue("role", itemValue);
+                    }}
+                    prompt="choisir un role"
+                  >
+                    {this.props.roles.map((role) => {
+                      return (
+                        <Picker.Item
+                          label={role.roleName}
+                          value={role.roleId}
+                        />
+                      );
+                    })}
+                  </Picker>
+                  {/* <ModalDropdown
                   onSelect={(idx, value) => console.log(idx)}
                   dropdownStyle={styles.dropdown}
                   options={this.props.roles.map((role) => {
                     return role.roleName;
                   })}
                 /> */}
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <Button
-                    // icon={
-                    //   <AntIcon name="login" type="ant-design" size={15} color="black" />
-                    // }
-                    containerStyle={styles.buttonAjouter}
-                    type="outline"
-                    title="Ajouter"
-                    titleStyle={styles.titleStyle}
-                    disabled={!isValid}
-                    onPress={() => handleSubmit()}
-                  />
-                  <Button
-                    // icon={
-                    //   <AntIcon name="login" type="ant-design" size={15} color="black" />
-                    // }
-                    containerStyle={styles.buttonAnnuler}
-                    type="outline"
-                    title="Annuler"
-                    titleStyle={styles.titleStyle}
-                    onPress={() => navigation.goBack()}
-                  />
-                </View>
-              </Fragment>
-            )}
-          </Formik>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <Button
+                      // icon={
+                      //   <AntIcon name="login" type="ant-design" size={15} color="black" />
+                      // }
+                      containerStyle={styles.buttonAjouter}
+                      type="outline"
+                      title="Ajouter"
+                      titleStyle={styles.titleStyle}
+                      disabled={!isValid}
+                      onPress={() => handleSubmit()}
+                    />
+                    <Button
+                      // icon={
+                      //   <AntIcon name="login" type="ant-design" size={15} color="black" />
+                      // }
+                      containerStyle={styles.buttonAnnuler}
+                      type="outline"
+                      title="Annuler"
+                      titleStyle={styles.titleStyle}
+                      onPress={() => navigation.goBack()}
+                    />
+                  </View>
+                </Fragment>
+              )}
+            </Formik>
+          </Block>
         </Block>
-      </Block>
+      </ScrollView>
     );
   }
 }
@@ -280,9 +300,9 @@ const styles = StyleSheet.create({
   //   width: width * 0.3,
   //   marginLeft: width * 0.6,
   // },
-  inputStyle: {
-    height: 37,
-  },
+  // inputStyle: {
+  //   height: 37,
+  // },
   dropdown: {
     marginTop: 8,
     marginLeft: -16,

@@ -11,6 +11,7 @@ import { Block, theme, Text } from "galio-framework";
 import { Card, Select, Button } from "../components";
 import articles from "../constants/articles";
 import { argonTheme } from "../constants/";
+import * as actions from "../actios/actionCreator";
 
 import { connect } from "react-redux";
 const { width } = Dimensions.get("screen");
@@ -20,13 +21,13 @@ const CardItem = (props) => {
   const { item, removeItemFromCart, changeItemQuantity } = props;
   //console.log("item", item);
   return (
-    <Block style={{ marginBottom: 30 }}>
-      <Block card flex style={(styles.cardItem, styles.shadow)}>
+    <Block>
+      <Block card flex style={[styles.cardItem, styles.shadow]}>
         <Block row style={{ backgroundColor: theme.COLORS.WHITE }}>
-          <Image source={{ uri: item.image }} style={styles.img} />
+          <Image source={{ uri: item.articlePhoto }} style={styles.img} />
           <Block flex space="between" style={styles.cardDescription}>
             <Text bold size={18} style={styles.cardTitle}>
-              {item.title}
+              {item.articleDescription}
             </Text>
             <Block flex right>
               <Text
@@ -35,7 +36,7 @@ const CardItem = (props) => {
                 color={argonTheme.COLORS.ACTIVE}
                 bold
               >
-                {item.prix} dh
+                {item.articlePrice} dh
               </Text>
             </Block>
           </Block>
@@ -74,6 +75,19 @@ const CardItem = (props) => {
 class Cart extends React.Component {
   renderArticles = () => {
     const { navigation } = this.props;
+    const checkoutCard = () => {
+      console.log("cardItems", this.props.cartItems);
+      const products = this.props.cartItems.map((p) => {
+        return {
+          quantity: p.quantity,
+          articleId: p.articleId,
+          articlePrice: p.articlePrice,
+        };
+      });
+
+      this.props.checkoutCard(this.props.token, products);
+      navigation.navigate("Commandes");
+    };
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -94,7 +108,7 @@ class Cart extends React.Component {
                 color={argonTheme.COLORS.RED}
               >
                 {this.props.cartItems.reduce(
-                  (a, b) => a + b.prix * b.quantity,
+                  (a, b) => a + b.articlePrice * b.quantity,
                   0
                 )}
                 dh
@@ -108,7 +122,7 @@ class Cart extends React.Component {
                 color: "white",
                 fontSize: 14,
               }}
-              onPress={() => navigation.navigate("Commandes")}
+              onPress={checkoutCard}
             >
               Confirmer la commande
             </Button>
@@ -147,7 +161,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   cardItem: {
-    paddingBottom: 30,
+    // paddingBottom: 30,
     backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE,
     minHeight: 114,
@@ -195,6 +209,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     cartItems: state.cardItems,
+    token: state.userReducer.token,
   };
 };
 const mapDispatchProps = (dispatch) => {
@@ -207,6 +222,8 @@ const mapDispatchProps = (dispatch) => {
         payload: product,
         quantity: quantity,
       }),
+    checkoutCard: (token, products) =>
+      dispatch(actions.checkoutCard(token, products)),
   };
 };
 

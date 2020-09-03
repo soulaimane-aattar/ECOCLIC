@@ -4,6 +4,7 @@ import auth from "./auth";
 import user from "./user";
 import article from "./article";
 import company from "./company";
+import commmandes from "./commandes";
 
 const routes = Router();
 
@@ -12,4 +13,5 @@ routes.use("/user", user);
 routes.use("/article", article);
 routes.use("/company", company);
 
+routes.use("/commmandes", commmandes);
 export default routes;

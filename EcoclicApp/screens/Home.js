@@ -10,22 +10,20 @@ const { width } = Dimensions.get("screen");
 
 class Home extends React.Component {
   componentDidMount() {
+    console.log("token", this.props.token);
     this.props.dispatch(actions.getArticlesForThatUser(this.props.token));
   }
   renderArticles = () => {
-    console.log("i am home i haev the artcile");
+    console.log(this.props.articles);
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.articles}
       >
         <Block flex>
-          <Block flex row>
-            {this.props.articles.map((article) => {
-              <Card item={article} />;
-              console.log("article 1 passe");
-            })}
-          </Block>
+          {this.props.articles.map((article, idx) => (
+            <Card item={article} idx={idx} horizontal /*={idx % 3 == 0}*/ />
+          ))}
         </Block>
       </ScrollView>
     );
@@ -54,14 +52,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    isLogged: state.userReducer.isLogged,
-    isLoading: state.userReducer.isLoading,
-    error: state.userReducer.errorMessage,
-    errorOrNot: state.userReducer.errorOrNot,
-    token: state.userReducer.tokesn,
+    token: state.userReducer.token,
     ///
-    articles: state.userReducer.articles,
-    articleIsLoading: state.userReducer.articleIsLoading,
+    articles: state.articles.articles,
+    loading: state.articles.loading,
   };
 };
 export default connect(mapStateToProps)(Home);

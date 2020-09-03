@@ -24,14 +24,6 @@ class ShowClient extends React.Component {
               </Text>
             </View>
             <View>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                mot de passe:{" "}
-              </Text>
-              <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                {client.password}
-              </Text>
-            </View>
-            <View>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>Nom: </Text>
               <Text style={{ fontSize: 18, marginBottom: 10 }}>
                 {client.userFirstName}

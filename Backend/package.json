@@ -31,6 +31,7 @@
     "start": "nodemon src/index.ts",
     "prod": "tsc && node ./build/app.js",
     "add-migration": "ts-node ./node_modules/typeorm/cli.js migration:generate -n",
-    "update-database": "ts-node ./node_modules/typeorm/cli.js migration:run"
+    "update-database": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "revert-migaration": "ts-node ./node_modules/typeorm/cli.js migration:revert"
   }
 }
