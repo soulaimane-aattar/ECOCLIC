@@ -33,6 +33,7 @@ import CustomDrawerContent from "./Menu";
 import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
 import ShowClient from "../screens/admin/ShowClient";
+import EditClient from "../screens/admin/EditClient";
 
 const { width } = Dimensions.get("screen");
 
@@ -349,6 +350,21 @@ function ClientsStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="client detail"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="EditClient"
+        component={EditClient}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="modifier"
               back
               navigation={navigation}
               scene={scene}

@@ -22,6 +22,7 @@ export class UserController {
         "compteNum",
         "userPhoto",
         "roleName",
+        "roleId",
       ])
       .getRawMany();
 
@@ -49,7 +50,8 @@ export class UserController {
         ], //We dont want to send the password on response
       });
     } catch (error) {
-      res.status(404).send("User not found");
+      res.status(404);
+      res.send("User not found");
     }
     res.send(user);
   };
@@ -97,22 +99,30 @@ export class UserController {
     //If all ok, send 201 response
     res.send("client ajoute avec succes");
   };
-
+  /*************************************************************************edit user****************** */
   static editUser = async (req: Request, res: Response) => {
     //Get the ID from the url
     const id = req.params.id;
 
     //Get values from the body
-    const { username, role, userFirstName, userLastName, userPhoto } = req.body;
+    const {
+      username,
+      role,
+      userFirstName,
+      userLastName,
+      userPassword,
+      societe,
+    } = req.body;
 
     //Try to find user on database
     const userRepository = getRepository(User);
-    let user;
+    let user: User;
     try {
       user = await userRepository.findOneOrFail(id);
     } catch (error) {
       //If not found, send a 404 response
       res.status(404).send("User not found");
+
       return;
     }
 
@@ -122,10 +132,10 @@ export class UserController {
     user.role = role;
     user.userFirstName = userFirstName;
     user.userLastName = userLastName;
-    user.userPhoto = userPhoto;
+    user.f_compte = societe;
     const errors = await validate(user);
     if (errors.length > 0) {
-      res.status(400).send(errors);
+      res.status(400).send("reesayer");
       return;
     }
 
@@ -133,11 +143,11 @@ export class UserController {
     try {
       await userRepository.save(user);
     } catch (e) {
-      res.status(409).send("username already in use");
+      res.status(409).send("nom d'utilisateur déja utilisé");
       return;
     }
     //After all send a 204 (no content, but accepted) response
-    res.status(204).send();
+    res.send("client modifié avec succée");
   };
 
   static deleteUser = async (req: Request, res: Response) => {

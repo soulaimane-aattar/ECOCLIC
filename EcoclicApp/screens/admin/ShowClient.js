@@ -63,9 +63,11 @@ class ShowClient extends React.Component {
               type="outline"
               title="modifier"
               titleStyle={styles.titleStyle}
-              // onPress={this.props.dispatch(
-              //   actions.deletteClient(this.props.token, client.userId)
-              // )}
+              onPress={() =>
+                navigation.navigate("EditClient", {
+                  client: this.props.route.params,
+                })
+              }
             />
             <Button
               icon={

@@ -21,6 +21,9 @@ const initialState = {
   errorLoadingRoles: false,
   ///******************************************* delete client**********/
   supprime: false,
+  ///******************************************* edit client**********/
+  modifie: false,
+  messageEditClient: "",
 };
 export default adminReducer = (state = initialState, action) => {
   /***********************************************************action get all cleints from database**************************************/
@@ -71,7 +74,7 @@ export default adminReducer = (state = initialState, action) => {
         added: false,
       });
       break;
-    /*********************************************************Add client to database********************************** */
+    /*********************************************************delete client to database********************************** */
     case ACTION_TYPES.DELETTE_CLIENT_SUCCESS:
       return (nextState = {
         ...state,
@@ -85,6 +88,27 @@ export default adminReducer = (state = initialState, action) => {
       return (nextState = {
         ...state,
         supprime: false,
+      });
+      break;
+    /*********************************************************edit client********************************** */
+    case ACTION_TYPES.EDIT_CLIENT_SUCCESS:
+      let client = action.payload.client;
+      let index = state.clients.findIndex((cl) => cl.userId == client.userId);
+      let nextClients = [...state.clients];
+      console.log(nextClients[index]);
+      return (nextState = {
+        ...state,
+        modifie: true,
+        clients: nextClients,
+
+        messageEditClient: action.payload.responce,
+      });
+      break;
+    case ACTION_TYPES.EDIT_CLIENT_FAILURE:
+      return (nextState = {
+        ...state,
+        messageEditClient: action.payload.responce,
+        modifie: false,
       });
       break;
 
@@ -117,6 +141,7 @@ export default adminReducer = (state = initialState, action) => {
         errorLoadingRoles: true,
       });
       break;
+
     /******************************************************************help methode to update state***********************/
 
     default:

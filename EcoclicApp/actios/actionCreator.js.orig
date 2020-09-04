@@ -169,46 +169,6 @@ export const deletteClient = (token, client) => {
       });
   };
 };
-/********************************************************edit client  database action creator */
-
-export const editClient = (token, client) => {
-  console.log(
-    "je suis en aaction  creator edit client en dessos s'est le id que j'ai"
-  );
-  console.log(client.userId);
-  return (dispatch, getState) => {
-    axios
-      .patch(
-        "http://localhost:3000/user/" + client.userId,
-        {
-          username: client.username,
-          password: client.password,
-          userFirstName: client.userFirstName,
-          userLastName: client.userLastName,
-          societe: client.company,
-          role: client.role,
-        },
-        { headers: { auth: token } }
-      )
-
-      .then((responce) => {
-        console.log("client edited, below the responce from the server");
-        console.log(responce.data);
-        dispatch({
-          type: ACTION_TYPES.EDIT_CLIENT_SUCCESS,
-          payload: { responce, client },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch({
-          type: ACTION_TYPES.EDIT_CLIENT_FAILURE,
-          payload: error,
-        });
-      });
-  };
-};
-
 export const checkoutCard = (token, products) => {
   console.log("poroducts ", { products: products });
   return (dispatch, getState) => {
