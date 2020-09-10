@@ -17,7 +17,7 @@ function CustomDrawerContent({
 }) {
   const insets = useSafeArea();
   const screens = isAdmin
-    ? ["Clients", "Articles", "Roles"]
+    ? ["Clients", "Articles", "Roles", "Comptes"]
     : ["Accueil", "Elements", "Articles", "Commandes", "Documents"];
   return (
     <Block
@@ -51,7 +51,7 @@ function CustomDrawerContent({
               }}
             />
             <Text color="#8898AA" style={{ marginTop: 16, marginLeft: 8 }}>
-              vous connecté comme admin
+              vous etes connecté
             </Text>
           </Block>
         </ScrollView>

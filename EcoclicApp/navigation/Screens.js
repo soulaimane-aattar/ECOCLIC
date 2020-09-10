@@ -16,7 +16,6 @@ import Cart from "../screens/Cart";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
-import Articles from "../screens/Articles";
 import Login from "../screens/Login";
 
 import Notifications from "../screens/Notifications";
@@ -26,15 +25,20 @@ import Documents from "../screens/Documents";
 
 import Clients from "../screens/admin/Clients";
 import AjoutClient from "../screens/admin/AjoutClient";
+import ShowClient from "../screens/admin/ShowClient";
+import EditClient from "../screens/admin/EditClient";
+import Comptes from "../screens/admin/Comptes";
 // drawer
+
 import CustomDrawerContent from "./Menu";
 
 // header for screens
 import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
-import ShowClient from "../screens/admin/ShowClient";
-import EditClient from "../screens/admin/EditClient";
 
+import Articles from "../screens/admin/Articles";
+import AdminProduct from "../screens/admin/ProductWithActions";
+import Roles from "../screens/admin/Roles";
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
@@ -376,6 +380,119 @@ function ClientsStack(props) {
     </Stack.Navigator>
   );
 }
+function ArticleAdminStack(props) {
+  return (
+    <Stack.Navigator
+      initialRouteName="Articles"
+      mode="card"
+      headerMode="screen"
+    >
+      <Stack.Screen
+        name="Articles"
+        component={Articles}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Articles"
+              //search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="AdminProduct"
+        component={AdminProduct}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="informations détaillées du produit"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+
+      {/* <Stack.Screen
+        name="ShowClient"
+        component={ShowClient}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="client detail"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="EditClient"
+        component={EditClient}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="modifier"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      /> */}
+    </Stack.Navigator>
+  );
+}
+function RolesStack(props) {
+  return (
+    <Stack.Navigator initialRouteName="Roles" mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Roles"
+        component={Roles}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Roles"
+              //search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function ComptesStack(props) {
+  return (
+    <Stack.Navigator initialRouteName="Comptes" mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Comptes"
+        component={Comptes}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Comptes"
+              //search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
@@ -472,6 +589,9 @@ function AdminStack(props) {
       initialRouteName="Clients"
     >
       <Drawer.Screen name="Clients" component={ClientsStack} />
+      <Drawer.Screen name="Articles" component={ArticleAdminStack} />
+      <Drawer.Screen name="Roles" component={RolesStack} />
+      <Drawer.Screen name="Comptes" component={ComptesStack} />
     </Drawer.Navigator>
   );
 }

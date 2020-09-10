@@ -13,10 +13,10 @@ import { Picker } from "@react-native-community/picker";
 // import RNPickerSelect from "react-native-picker-select";
 const { width, height } = Dimensions.get("screen");
 class AjoutClient extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(actions.getRoles(this.props.token));
-    this.props.dispatch(actions.getCompanies(this.props.token));
-  }
+  // componentDidMount() {
+  //   this.props.dispatch(actions.getRoles(this.props.token));
+  //   this.props.dispatch(actions.getCompanies(this.props.token));
+  // }
   render() {
     this.state = {
       username: "",

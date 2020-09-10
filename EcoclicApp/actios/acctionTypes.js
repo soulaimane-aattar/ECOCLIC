@@ -39,7 +39,13 @@ const ACTION_TYPES = {
   GET_ROLES_START: "GET_ROLES_START",
   GET_ROLES_SUCCESS: "GET_ROLES_SUCCESS",
   GET_ROLES_FAILURE: "GET_ROLES_FAILURE",
-  /*****************************************************help methode ********* */
+  /*****************************************************get all articles for admin ********* */
+  GET_ARTICLE_FOR_ADMIN_SUCCESS: "GET_ARTICLE_FOR_ADMIN_SUCCESS",
+  GET_ARTICLE_FOR_ADMIN_FAILURE: "GET_ARTICLE_FOR_ADMIN_FAILURE",
+  /*****************************************************fin articles for admin *************/
+  ADD_COMPANY_SUCCESS: "ADD_COMPANY_SUCCESS",
+  ADD_COMPANY_FAILURE: "ADD_COMPANY_FAILURE",
+
   UPDATE_STATE: "UPDATE_STATE",
   CHECKOUT_SUCCESS: "CHECKOUT_SUCCESS",
 };

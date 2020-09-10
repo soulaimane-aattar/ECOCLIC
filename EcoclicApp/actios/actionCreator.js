@@ -208,6 +208,66 @@ export const editClient = (token, client) => {
       });
   };
 };
+/**************************************************************actions for admin part : Articles ***********************/
+export const getAllArticles = (token) => {
+  return (dispatch, getState) => {
+    axios
+      .get(BASE_URL + "/article/", {
+        headers: { auth: token },
+      })
+      .then((responce) => {
+        console.log("article get succefully in action creator");
+        console.log(responce.data);
+        dispatch({
+          type: ACTION_TYPES.GET_ARTICLE_FOR_ADMIN_SUCCESS,
+          payload: responce,
+        });
+      })
+      .catch(
+        (error = (error) => {
+          console.log("article error action creator");
+          console.log(error);
+
+          dispatch({
+            type: ACTION_TYPES.GET_ARTICLE_FOR_ADMIN_FAILURE,
+            payload: error,
+          });
+        })
+      );
+  };
+};
+
+export const addCompany = (token, company) => {
+  console.log(company);
+  // console.log(company.compteNum);
+
+  return (dispatch, getState) => {
+    axios
+      .post(
+        "http://localhost:3000/company/add",
+        {
+          compteIntitule: company.compteIntitule,
+          compteNum: company.compteNum,
+        },
+        { headers: { auth: token } }
+      )
+      .then((responce) => {
+        console.log("action passed");
+        dispatch({
+          type: ACTION_TYPES.ADD_COMPANY_SUCCESS,
+          payload: { responce, company },
+        });
+      })
+      .catch((error) => {
+        console.log("action not passed");
+        console.log(error);
+        dispatch({
+          type: ACTION_TYPES.ADD_COMPANY_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
 
 export const checkoutCard = (token, products) => {
   console.log("poroducts ", { products: products });

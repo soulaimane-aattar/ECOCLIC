@@ -6,9 +6,10 @@ const initialState = {
   errorOrNot: false,
   token: "",
   expired: true,
-  ////////////////////////////////////user's articles
+  ////////////////////////////////////admin articles
   articles: [],
   articleIsLoading: false,
+  ///////////////////////////
   clientsIsLoading: false,
   clients: [],
   errorLoadingClients: false,
@@ -24,6 +25,9 @@ const initialState = {
   ///******************************************* edit client**********/
   modifie: false,
   messageEditClient: "",
+  ///******************************************* ADD company**********/
+
+  messageAddCompany: "",
 };
 export default adminReducer = (state = initialState, action) => {
   /***********************************************************action get all cleints from database**************************************/
@@ -92,9 +96,15 @@ export default adminReducer = (state = initialState, action) => {
       break;
     /*********************************************************edit client********************************** */
     case ACTION_TYPES.EDIT_CLIENT_SUCCESS:
+      console.log(action.payload.responce.data);
       let client = action.payload.client;
       let index = state.clients.findIndex((cl) => cl.userId == client.userId);
       let nextClients = [...state.clients];
+      console.log("***************************oldclient***********");
+      console.log(nextClients[index]);
+      nextClients[index] = Object.assign(nextClients[index], client);
+      console.log("***************************nextclient***********");
+
       console.log(nextClients[index]);
       return (nextState = {
         ...state,
@@ -141,9 +151,39 @@ export default adminReducer = (state = initialState, action) => {
         errorLoadingRoles: true,
       });
       break;
+    /******************************************************************get all Articles for admin from database****************** */
+    case ACTION_TYPES.GET_ARTICLE_FOR_ADMIN_SUCCESS:
+      return (nextState = {
+        ...state,
+        articles: action.payload.data,
+      });
+      break;
+    case ACTION_TYPES.GET_ARTICLE_FOR_ADMIN_FAILURE:
+      return (nextState = {
+        ...state,
+      });
+      break;
+    /******************************************************************ADD a company****************** */
+
+    case ACTION_TYPES.ADD_COMPANY_SUCCESS:
+      console.log("je suis appele reducer");
+      return (nextState = {
+        ...state,
+        messageAddCompany: action.payload.responce.data,
+
+        companies: [...state.companies, action.payload.company],
+      });
+      break;
+    case ACTION_TYPES.ADD_COMPANY_FAILURE:
+      return (nextState = {
+        ...state,
+        messageAddCompany: action.payload.responce.data,
+      });
+      break;
 
     /******************************************************************help methode to update state***********************/
-
+    case ACTION_TYPES.UPDATE_STATE:
+      console.log("hello");
     default:
       return state;
   }

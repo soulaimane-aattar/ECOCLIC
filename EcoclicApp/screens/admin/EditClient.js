@@ -11,10 +11,10 @@ import { connect } from "react-redux";
 import { Picker } from "@react-native-community/picker";
 const { width, height } = Dimensions.get("screen");
 class EditClient extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(actions.getRoles(this.props.token));
-    this.props.dispatch(actions.getCompanies(this.props.token));
-  }
+  // componentDidMount() {
+  //   this.props.dispatch(actions.getRoles(this.props.token));
+  //   this.props.dispatch(actions.getCompanies(this.props.token));
+  // }
   render() {
     const { client } = this.props.route.params;
     this.state = {
@@ -53,9 +53,19 @@ class EditClient extends React.Component {
                 this.props.dispatch(
                   actions.editClient(this.props.token, vauesTosend)
                 );
+                Alert.alert(
+                  "",
+                  "" + this.props.messageEditClient.data,
+                  [
+                    {
+                      text: "voir vos modification",
+                      onPress: () => navigation.navigate("Clients"),
+                    },
+                  ],
+                  { cancelable: false }
+                );
 
-                Alert.alert(this.props.messageEditClient);
-                navigation.navigate("Clients");
+                // Alert.alert(this.props.messageEditClient);
               }}
               validationSchema={validationSchema}
             >
