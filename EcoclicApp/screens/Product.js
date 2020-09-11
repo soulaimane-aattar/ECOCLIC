@@ -44,7 +44,7 @@ class Product extends React.Component {
                   {product.articleName}
                 </Text>
 
-                <Block flex row space="between">
+                <Block flex row>
                   <Block left>
                     <Text size={16}> {product.articleDescription}</Text>
                   </Block>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   DescriptionContainer: {
     width: width,
     marginTop: "78%",
-    height: height - thumbMeasure,
+    minHeight: height / 2,
   },
   profileCard: {
     position: "relative",
@@ -174,8 +174,8 @@ const styles = StyleSheet.create({
     height: thumbMeasure,
   },
   addToCard: {
-    width: width * 0.8,
-    //  position: "absolute",
+    width: width - theme.SIZES.BASE * 4,
+    position: "absolute",
     bottom: 0,
   },
 });

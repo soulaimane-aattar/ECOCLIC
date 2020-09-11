@@ -8,12 +8,11 @@ import { User } from "../entity/User";
 
 export class CommandesController {
   static newCommande = async (req: Request, res: Response) => {
-    let { products } = req.body;
-    let docentiteRepo = getRepository(F_docentete);
+    let docenteteRepo = getRepository(F_docentete);
     let docligneRepo = getRepository(F_docligne);
     let articleRepo = getRepository(F_article);
-    let UserRepo = getRepository(User);
-
+    let userRepo = getRepository(User);
+    let { products } = req.body;
     let userId: number = res.locals.jwtPayload.userId;
 
     if (!products) {
@@ -28,7 +27,7 @@ export class CommandesController {
     let docentete = new F_docentete();
     docentete.prixTotal = prixTotal;
     docentete.quantite = products.length;
-    let user = await UserRepo.findOne(userId);
+    let user = await userRepo.findOne(userId);
     docentete.user = user;
 
     // creat commande lines  with   the same  date  as  entete
@@ -47,7 +46,7 @@ export class CommandesController {
     );
 
     try {
-      await docentiteRepo.save(docentete);
+      await docenteteRepo.save(docentete);
       await docligneRepo.save(doclines);
     } catch (e) {
       console.log("docline", e);
@@ -55,5 +54,22 @@ export class CommandesController {
     }
 
     res.status(202).send();
+  };
+
+  static getUserCommandes = async (req: Request, res: Response) => {
+    let docenteteRepo = getRepository(F_docentete);
+    let userId: number = res.locals.jwtPayload.userId;
+    let userDocentetes;
+
+    try {
+      userDocentetes = await docenteteRepo.find({
+        relations: ["f_docligne", "f_docligne.f_article"],
+        where: { user: userId },
+      });
+    } catch (e) {
+      res.status(400).send(e);
+    }
+    console.log(userDocentetes);
+    res.status(202).send(userDocentetes);
   };
 }

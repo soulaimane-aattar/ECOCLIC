@@ -15,7 +15,7 @@ export const login = (values) => {
       })
       .catch((error) => {
         // Alert.alert(respance.response.data);
-        console.log("loggin failde on actioncreator");
+        // console.log("loggin failde on actioncreator");
         console.log(error);
 
         dispatch({ type: ACTION_TYPES.LOGIN_FAILURE, payload: error });
@@ -30,7 +30,7 @@ export const getArticlesForThatUser = (token) => {
         headers: { auth: token },
       })
       .then((responce) => {
-        console.log("article get succefully in action creator");
+        //  console.log("article get succefully in action creator");
         // console.log(responce);
         dispatch({
           type: ACTION_TYPES.GET_ARTICLE_SUCCESS,
@@ -39,7 +39,7 @@ export const getArticlesForThatUser = (token) => {
       })
       .catch(
         (error = (error) => {
-          console.log("article error action creator");
+          // console.log("article error action creator");
           console.log(error);
 
           dispatch({ type: ACTION_TYPES.GET_ARTICLE_FAILURE, payload: error });
@@ -282,10 +282,34 @@ export const checkoutCard = (token, products) => {
       )
       .then((responce) => {
         console.log(responce);
-        dispatch({ type: ACTION_TYPES.CHECKOUT_SUCCESS });
+        dispatch({
+          type: ACTION_TYPES.CHECKOUT_SUCCESS,
+          payload: responce,
+        });
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+};
+
+export const getUserCommandes = (token) => {
+  return (dispatch, getState) => {
+    axios
+      .get(BASE_URL + "/commmandes/", { headers: { auth: token } })
+      .then((responce) => {
+        //   console.log("commmandes", responce.data);
+        dispatch({
+          type: ACTION_TYPES.GET_USER_COMMANDES,
+          payload: responce.data,
+        });
       })
       .catch((error) => {
         console.log(error);
+        dispatch({
+          type: ACTION_TYPES.SET_USER_COMMANDES_FAILURE,
+          payload: error,
+        });
       });
   };
 };

@@ -22,6 +22,7 @@ import Notifications from "../screens/Notifications";
 import Commandes from "../screens/Commandes";
 import Map from "../screens/Map";
 import Documents from "../screens/Documents";
+import CommandeDetail from "../screens/CommandeDetail";
 
 import Clients from "../screens/admin/Clients";
 import AjoutClient from "../screens/admin/AjoutClient";
@@ -183,7 +184,7 @@ function HomeStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Accueil"
-              search
+              // search
               // options
               navigation={navigation}
               scene={scene}
@@ -286,6 +287,21 @@ function HomeStack(props) {
             <Header
               title="Commandes"
               hasActions
+              navigation={navigation}
+              scene={scene}
+              style={{ backgroundColor: argonTheme.COLORS.WHITE }}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="CommandeDetail"
+        component={CommandeDetail}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Commmande"
+              back
               navigation={navigation}
               scene={scene}
               style={{ backgroundColor: argonTheme.COLORS.WHITE }}

@@ -38,7 +38,6 @@ class Login extends React.Component {
     }
 
     if (this.props.errorOrNot == true) {
-      console.log("errorOrNot", this.props.error.message);
       if (this.props.error.response)
         Alert.alert(this.props.error.response.data);
       else {

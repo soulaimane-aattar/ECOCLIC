@@ -1,9 +1,10 @@
 import React from "react";
 import { Block, Text, theme, Button } from "galio-framework";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Dimensions } from "react-native";
 import { argonTheme } from "../constants";
 import { Icon } from "../components";
 
+const { width } = Dimensions.get("screen");
 const BASE_SIZE = theme.SIZES.BASE;
 const COLOR_WHITE = theme.COLORS.WHITE;
 const COLOR_GREY = theme.COLORS.MUTED; // '#D8DDE1';
@@ -126,6 +127,8 @@ const styles = StyleSheet.create({
   demandeBtn: {
     margin: 10,
     justifyContent: "center",
+    marginBottom: theme.SIZES.BASE,
+    width: width - theme.SIZES.BASE * 2,
   },
   card: {
     borderColor: "transparent",
