@@ -127,7 +127,7 @@ class Articles extends React.Component {
       <Block flex style={styles.group}>
         <Block flex>
           {this.props.articles.map((article, idx) => (
-            <Card item={article} idx={idx} horizontal /*={idx % 3 == 0}*/ />
+            <Card item={article} idxidx={} horizontal /*={idx % 3 == 0}*/ />
           ))}
         </Block>
       </Block>

@@ -2,32 +2,33 @@ import React, { Component, Fragment } from "react";
 import { StyleSheet, Dimensions, Alert, View, ScrollView } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { Button, Input } from "react-native-elements";
-// import { Input } from "../../components";
-import ModalDropdown from "react-native-modal-dropdown";
+import AntIcon from "react-native-vector-icons/AntDesign";
 import * as yup from "yup";
 import { Formik } from "formik";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as actions from "../../actios/actionCreator";
 import { connect } from "react-redux";
 import { Picker } from "@react-native-community/picker";
-// import RNPickerSelect from "react-native-picker-select";
 const { width, height } = Dimensions.get("screen");
-class AjoutClient extends React.Component {
+class EditClient extends React.Component {
   // componentDidMount() {
   //   this.props.dispatch(actions.getRoles(this.props.token));
   //   this.props.dispatch(actions.getCompanies(this.props.token));
   // }
   render() {
+    const { client } = this.props.route.params;
     this.state = {
-      username: "",
+      username: client.client.username,
       password: "",
-      userFirstName: "",
-      userLastName: "",
-      company: "",
-      role: "",
+      userFirstName: client.client.userFirstName,
+      userLastName: client.client.userLastName,
+      company: client.client.compteNum,
+      role: client.client.roleId,
       checkPassword: "",
+      userId: client.client.userId,
     };
-    let added = this.props.added;
+    let modifie = this.props.modifie;
+    console.log(client);
     const { navigation } = this.props;
 
     return (
@@ -50,11 +51,21 @@ class AjoutClient extends React.Component {
                 };
 
                 this.props.dispatch(
-                  actions.addClient(this.props.token, vauesTosend)
+                  actions.editClient(this.props.token, vauesTosend)
                 );
-                if (added) {
-                  Alert.alert(this.props.messageAddClient);
-                }
+                Alert.alert(
+                  "",
+                  "" + this.props.messageEditClient.data,
+                  [
+                    {
+                      text: "voir vos modification",
+                      onPress: () => navigation.navigate("Clients"),
+                    },
+                  ],
+                  { cancelable: false }
+                );
+
+                // Alert.alert(this.props.messageEditClient);
               }}
               validationSchema={validationSchema}
             >
@@ -208,13 +219,7 @@ class AjoutClient extends React.Component {
                       );
                     })}
                   </Picker>
-                  {/* <ModalDropdown
-                  onSelect={(idx, value) => console.log(idx)}
-                  dropdownStyle={styles.dropdown}
-                  options={this.props.roles.map((role) => {
-                    return role.roleName;
-                  })}
-                /> */}
+
                   <View
                     style={{
                       flexDirection: "row",
@@ -222,12 +227,17 @@ class AjoutClient extends React.Component {
                     }}
                   >
                     <Button
-                      // icon={
-                      //   <AntIcon name="login" type="ant-design" size={15} color="black" />
-                      // }
+                      icon={
+                        <AntIcon
+                          name="save"
+                          type="ant-design"
+                          size={15}
+                          color="black"
+                        />
+                      }
                       containerStyle={styles.buttonAjouter}
                       type="outline"
-                      title="Ajouter"
+                      title="enregistrer"
                       titleStyle={styles.titleStyle}
                       disabled={!isValid}
                       onPress={() => handleSubmit()}
@@ -254,11 +264,11 @@ class AjoutClient extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    added: state.adminReducer.added,
+    modifie: state.adminReducer.modifie,
     token: state.userReducer.token,
     companies: state.adminReducer.companies,
     roles: state.adminReducer.roles,
-    messageAddClient: state.adminReducer.messageAddClient,
+    messageEditClient: state.adminReducer.messageEditClient,
   };
 };
 //validationSchema
@@ -310,4 +320,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(AjoutClient);
+export default connect(mapStateToProps)(EditClient);

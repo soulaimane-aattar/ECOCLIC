@@ -15,7 +15,7 @@ export const login = (values) => {
       })
       .catch((error) => {
         // Alert.alert(respance.response.data);
-        // console.log("loggin failde on actioncreator");
+        console.log("loggin failde on actioncreator");
         console.log(error);
 
         dispatch({ type: ACTION_TYPES.LOGIN_FAILURE, payload: error });
@@ -30,7 +30,7 @@ export const getArticlesForThatUser = (token) => {
         headers: { auth: token },
       })
       .then((responce) => {
-        //  console.log("article get succefully in action creator");
+        console.log("article get succefully in action creator");
         // console.log(responce);
         dispatch({
           type: ACTION_TYPES.GET_ARTICLE_SUCCESS,
@@ -39,7 +39,7 @@ export const getArticlesForThatUser = (token) => {
       })
       .catch(
         (error = (error) => {
-          // console.log("article error action creator");
+          console.log("article error action creator");
           console.log(error);
 
           dispatch({ type: ACTION_TYPES.GET_ARTICLE_FAILURE, payload: error });
@@ -169,106 +169,6 @@ export const deletteClient = (token, client) => {
       });
   };
 };
-/********************************************************edit client  database action creator */
-
-export const editClient = (token, client) => {
-  console.log(
-    "je suis en aaction  creator edit client en dessos s'est le id que j'ai"
-  );
-  console.log(client.userId);
-  return (dispatch, getState) => {
-    axios
-      .patch(
-        "http://localhost:3000/user/" + client.userId,
-        {
-          username: client.username,
-          password: client.password,
-          userFirstName: client.userFirstName,
-          userLastName: client.userLastName,
-          societe: client.company,
-          role: client.role,
-        },
-        { headers: { auth: token } }
-      )
-
-      .then((responce) => {
-        console.log("client edited, below the responce from the server");
-        console.log(responce.data);
-        dispatch({
-          type: ACTION_TYPES.EDIT_CLIENT_SUCCESS,
-          payload: { responce, client },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch({
-          type: ACTION_TYPES.EDIT_CLIENT_FAILURE,
-          payload: error,
-        });
-      });
-  };
-};
-/**************************************************************actions for admin part : Articles ***********************/
-export const getAllArticles = (token) => {
-  return (dispatch, getState) => {
-    axios
-      .get(BASE_URL + "/article/", {
-        headers: { auth: token },
-      })
-      .then((responce) => {
-        console.log("article get succefully in action creator");
-        console.log(responce.data);
-        dispatch({
-          type: ACTION_TYPES.GET_ARTICLE_FOR_ADMIN_SUCCESS,
-          payload: responce,
-        });
-      })
-      .catch(
-        (error = (error) => {
-          console.log("article error action creator");
-          console.log(error);
-
-          dispatch({
-            type: ACTION_TYPES.GET_ARTICLE_FOR_ADMIN_FAILURE,
-            payload: error,
-          });
-        })
-      );
-  };
-};
-
-export const addCompany = (token, company) => {
-  console.log(company);
-  // console.log(company.compteNum);
-
-  return (dispatch, getState) => {
-    axios
-      .post(
-        "http://localhost:3000/company/add",
-        {
-          compteIntitule: company.compteIntitule,
-          compteNum: company.compteNum,
-        },
-        { headers: { auth: token } }
-      )
-      .then((responce) => {
-        console.log("action passed");
-        dispatch({
-          type: ACTION_TYPES.ADD_COMPANY_SUCCESS,
-          payload: { responce, company },
-        });
-      })
-      .catch((error) => {
-        console.log("action not passed");
-        console.log(error);
-        dispatch({
-          type: ACTION_TYPES.ADD_COMPANY_FAILURE,
-          payload: error,
-        });
-      });
-  };
-};
-
 export const checkoutCard = (token, products) => {
   console.log("poroducts ", { products: products });
   return (dispatch, getState) => {
@@ -282,34 +182,10 @@ export const checkoutCard = (token, products) => {
       )
       .then((responce) => {
         console.log(responce);
-        dispatch({
-          type: ACTION_TYPES.CHECKOUT_SUCCESS,
-          payload: responce,
-        });
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  };
-};
-
-export const getUserCommandes = (token) => {
-  return (dispatch, getState) => {
-    axios
-      .get(BASE_URL + "/commmandes/", { headers: { auth: token } })
-      .then((responce) => {
-        //   console.log("commmandes", responce.data);
-        dispatch({
-          type: ACTION_TYPES.GET_USER_COMMANDES,
-          payload: responce.data,
-        });
+        dispatch({ type: ACTION_TYPES.CHECKOUT_SUCCESS });
       })
       .catch((error) => {
         console.log(error);
-        dispatch({
-          type: ACTION_TYPES.SET_USER_COMMANDES_FAILURE,
-          payload: error,
-        });
       });
   };
 };

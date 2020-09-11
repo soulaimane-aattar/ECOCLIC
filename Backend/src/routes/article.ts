@@ -7,7 +7,11 @@ import { ArticleController } from "../controllers/ArticleController";
 const router = Router();
 
 //Get all articles a specific user
-router.get("/", [checkJwt], ArticleController.listAllArticles);
+router.get(
+  "/",
+  [checkJwt, checkRole(["ADMIN"])],
+  ArticleController.listAllArticles
+);
 router.get("/my_article", [checkJwt], ArticleController.getArticleForUser);
 router.delete(
   "/delete/:id([0-9]+)",

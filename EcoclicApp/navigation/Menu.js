@@ -17,7 +17,7 @@ function CustomDrawerContent({
 }) {
   const insets = useSafeArea();
   const screens = isAdmin
-    ? ["Clients"]
+    ? ["Clients", "Articles", "Roles", "Comptes"]
     : ["Accueil", "Elements", "Articles", "Commandes", "Documents"];
   return (
     <Block
@@ -51,10 +51,9 @@ function CustomDrawerContent({
               }}
             />
             <Text color="#8898AA" style={{ marginTop: 16, marginLeft: 8 }}>
-              DOCUMENTATION
+              vous etes connecté
             </Text>
           </Block>
-          <DrawerCustomItem title="Getting Started" navigation={navigation} />
         </ScrollView>
       </Block>
     </Block>

@@ -69,6 +69,8 @@ class Clients extends React.Component {
   componentDidMount() {
     console.log("je suis sur la page clien");
     this.props.dispatch(actions.getAllClients(this.props.token));
+    this.props.dispatch(actions.getRoles(this.props.token));
+    this.props.dispatch(actions.getCompanies(this.props.token));
   }
   renderCard = (client, index) => {
     const { navigation } = this.props;
