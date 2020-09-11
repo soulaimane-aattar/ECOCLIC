@@ -3,21 +3,15 @@ import "reflect-metadata";
 import auth from "./auth";
 import user from "./user";
 import article from "./article";
-<<<<<<< HEAD
 import company from "./company";
-=======
 import commmandes from "./commandes";
->>>>>>> upstream/master
 
 const routes = Router();
 
 routes.use("/auth", auth);
 routes.use("/user", user);
 routes.use("/article", article);
-<<<<<<< HEAD
 routes.use("/company", company);
 
-=======
 routes.use("/commmandes", commmandes);
->>>>>>> upstream/master
 export default routes;
