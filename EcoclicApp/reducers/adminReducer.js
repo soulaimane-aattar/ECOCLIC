@@ -25,8 +25,16 @@ const initialState = {
   ///******************************************* edit client**********/
   modifie: false,
   messageEditClient: "",
+  ///******************************************* add a  role**********/
+  messageAddRole: "",
+  roleAdded: "",
+  ///******************************************* edit role**********/
+  roleModifie: false,
+  messageEditRole: "",
+  ///******************************************* delete client**********/
+  roleSupprime: false,
+  messageRoleSuppime: "",
   ///******************************************* ADD company**********/
-
   messageAddCompany: "",
 };
 export default adminReducer = (state = initialState, action) => {
@@ -71,7 +79,7 @@ export default adminReducer = (state = initialState, action) => {
         clients: [...state.clients, action.payload.client],
       });
       break;
-    case ACTION_TYPES.GET_CLIENT_FAILURE:
+    case ACTION_TYPES.ADD_CLIENT_FAILURE:
       return (nextState = {
         ...state,
         messageAddClient: action.payload.data,
@@ -96,16 +104,11 @@ export default adminReducer = (state = initialState, action) => {
       break;
     /*********************************************************edit client********************************** */
     case ACTION_TYPES.EDIT_CLIENT_SUCCESS:
-      console.log(action.payload.responce.data);
       let client = action.payload.client;
       let index = state.clients.findIndex((cl) => cl.userId == client.userId);
       let nextClients = [...state.clients];
-      console.log("***************************oldclient***********");
-      console.log(nextClients[index]);
       nextClients[index] = Object.assign(nextClients[index], client);
-      console.log("***************************nextclient***********");
 
-      console.log(nextClients[index]);
       return (nextState = {
         ...state,
         modifie: true,
@@ -149,6 +152,60 @@ export default adminReducer = (state = initialState, action) => {
       return (nextState = {
         ...state,
         errorLoadingRoles: true,
+      });
+      break;
+    /******************************************************************Add a role****************** */
+
+    case ACTION_TYPES.ADD_ROLE_SUCCESS:
+      return (nextState = {
+        ...state,
+        messageAddRole: action.payload.responce.data,
+        roleAdded: true,
+        roles: [...state.roles, action.payload.role],
+      });
+      break;
+    case ACTION_TYPES.ADD_ROLE_FAILURE:
+      return (nextState = {
+        ...state,
+        messageAddRole: action.payload.data,
+        roleAdded: false,
+      });
+      break;
+    /*********************************************************edit a role********************************** */
+    case ACTION_TYPES.EDIT_ROLE_SUCCESS:
+      let role = action.payload.role;
+      let id = state.roles.findIndex((rl) => rl.roleId == role.roleId);
+      let nextRoles = [...state.roles];
+      nextRoles[id] = Object.assign(nextRoles[id], role);
+      console.log("this is the responce from the edit action");
+
+      console.log(action.payload.responce);
+      return (nextState = {
+        ...state,
+        roleModifie: true,
+        roles: nextRoles,
+        messageEditRole: action.payload.responce,
+      });
+      break;
+    case ACTION_TYPES.EDIT_ROLE_FAILURE:
+      return (nextState = {
+        ...state,
+        messageEditRole: action.payload.responce,
+        roleModifie: false,
+      });
+      break;
+    /******************************************************************delete a role from database****************** */
+    case ACTION_TYPES.DELETTE_ROLE_SUCCESS:
+      return (nextState = {
+        ...state,
+        roleSupprime: true,
+        roles: [...state.roles.filter((role) => role !== action.payload.role)],
+      });
+      break;
+    case ACTION_TYPES.DELETTE_ROLE_FAILURE:
+      return (nextState = {
+        ...state,
+        roleSupprime: false,
       });
       break;
     /******************************************************************get all Articles for admin from database****************** */

@@ -71,6 +71,7 @@ class Clients extends React.Component {
     this.props.dispatch(actions.getAllClients(this.props.token));
     this.props.dispatch(actions.getRoles(this.props.token));
     this.props.dispatch(actions.getCompanies(this.props.token));
+    console.log(this.props.roles);
   }
   renderCard = (client, index) => {
     const { navigation } = this.props;

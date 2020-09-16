@@ -170,7 +170,7 @@ export class UserController {
     //After all send a 204 (no content, but accepted) response
     res.status(204).send();
   };
-
+  //role actions
   static getRoles = async (req: Request, res: Response) => {
     let roles;
     try {
@@ -181,5 +181,70 @@ export class UserController {
     } catch (error) {
       res.status(401).send("essayer une autre fois");
     }
+  };
+  //add a new role to database
+  static addRole = async (req: Request, res: Response) => {
+    let role = new Role();
+    let { roleName } = req.body;
+    console.log(roleName);
+    role.roleName = roleName;
+    const errors = await validate(role);
+    if (errors.length > 0) {
+      res.status(400).send(errors);
+      return;
+    }
+    const roleRepository = getRepository(Role);
+    try {
+      await roleRepository.save(role);
+    } catch (e) {
+      res.status(409).send("un probleme de sauvegarde, essayer plus tard svp");
+      return;
+    }
+    res.send("role ajouté avec succées");
+    return;
+  };
+
+  //edita role
+  static editRole = async (req: Request, res: Response) => {
+    console.log("action applele");
+    let role = new Role();
+    let { roleId, roleName } = req.body;
+    const roleRepository = getRepository(Role);
+    try {
+      role = await roleRepository.findOneOrFail(roleId);
+    } catch (e) {
+      res.status(409).send("role non trouvé");
+      return;
+    }
+
+    role.roleName = roleName;
+    const errors = await validate(role);
+    if (errors.length > 0) {
+      res.status(400).send("reesayer");
+      return;
+    }
+    try {
+      await roleRepository.save(role);
+    } catch (e) {
+      res.status(409).send("un probleme de modification");
+    }
+    res.send("role modifié avec succées");
+    return;
+  };
+  //delete role
+  static deletteRole = async (req: Request, res: Response) => {
+    console.log("delete called bellow the id of the role");
+    const roleId = +req.params.roleId;
+    let role = new Role();
+
+    const roleRepository = getRepository(Role);
+    try {
+      role = await roleRepository.findOneOrFail({ roleId: roleId });
+    } catch (e) {
+      res.status(404);
+      res.send("role non trouvé");
+    }
+    roleRepository.delete({ roleId: roleId });
+    res.send("role supprimé avec succée");
   };
 }

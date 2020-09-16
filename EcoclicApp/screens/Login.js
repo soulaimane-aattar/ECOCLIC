@@ -64,7 +64,6 @@ class Login extends React.Component {
                 onSubmit={(values) => {
                   this.props.dispatch(actions.login(values));
                 }}
-                validationSchema={validationSchema}
               >
                 {({
                   values,

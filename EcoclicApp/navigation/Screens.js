@@ -29,6 +29,13 @@ import AjoutClient from "../screens/admin/AjoutClient";
 import ShowClient from "../screens/admin/ShowClient";
 import EditClient from "../screens/admin/EditClient";
 import Comptes from "../screens/admin/Comptes";
+import ShowRole from "../screens/admin/ShowRole";
+import AjoutRole from "../screens/admin/AjoutRole";
+import EditRole from "../screens/admin/EditRole";
+
+import AjoutCompte from "../screens/admin/AjoutCompte";
+import ShowCompte from "../screens/admin/ShowCompte";
+import EditCompte from "../screens/admin/EditCompte";
 // drawer
 
 import CustomDrawerContent from "./Menu";
@@ -354,7 +361,7 @@ function ClientsStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="Ajout client"
+              title="Ajouter un client"
               back
               navigation={navigation}
               scene={scene}
@@ -369,7 +376,7 @@ function ClientsStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="client detail"
+              title="détail client"
               back
               navigation={navigation}
               scene={scene}
@@ -485,6 +492,51 @@ function RolesStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
+      <Stack.Screen
+        name="ShowRole"
+        component={ShowRole}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="detail du role"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="AjoutRole"
+        component={AjoutRole}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="detail du role"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="EditRole"
+        component={EditRole}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="modifier le role"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -498,7 +550,52 @@ function ComptesStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Comptes"
-              //search
+              // search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="ShowCompte"
+        component={ShowCompte}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="detail du compte"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="AjoutCompte"
+        component={AjoutCompte}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Ajouter un Compte"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="EditCompte"
+        component={EditCompte}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="modifier ce Compte"
+              back
               navigation={navigation}
               scene={scene}
             />

@@ -6,9 +6,9 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { connect } from "react-redux";
 import * as actions from "../../actios/actionCreator";
-class ShowClient extends React.Component {
+class showCompte extends React.Component {
   render() {
-    const { client } = this.props.route.params;
+    const { compte } = this.props.route.params;
     const { navigation } = this.props;
 
     return (
@@ -17,36 +17,19 @@ class ShowClient extends React.Component {
           <View style={styles.subContainer}>
             <View>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                username:
+                Nom du société:
               </Text>
               <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                {client.username}
+                {compte.compteIntitule}
               </Text>
             </View>
-            <View>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>Nom: </Text>
-              <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                {client.userFirstName}
-              </Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>Prénom: </Text>
-              <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                {client.userLastName}
-              </Text>
-            </View>
+
             <View>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                société:{" "}
+                Numéro de société:{" "}
               </Text>
               <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                {client.compteIntitule}
-              </Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>role: </Text>
-              <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                {client.roleName}
+                {compte.compteNum}
               </Text>
             </View>
           </View>
@@ -64,8 +47,8 @@ class ShowClient extends React.Component {
               title="modifier"
               titleStyle={styles.titleStyle}
               onPress={() =>
-                navigation.navigate("EditClient", {
-                  client: this.props.route.params,
+                navigation.navigate("EditCompte", {
+                  compte: this.props.route.params,
                 })
               }
             />
@@ -82,11 +65,12 @@ class ShowClient extends React.Component {
               title="supprimer"
               titleStyle={styles.titleStyle}
               onPress={() => {
+                console.log(compte.userId);
                 this.props.dispatch(
-                  actions.deletteClient(this.props.token, client)
+                  actions.delettecompte(this.props.token, compte)
                 );
                 if (this.props.supprime == true) {
-                  Alert.alert("client supprime avec succes");
+                  Alert.alert("compte supprime avec succes");
                   navigation.goBack();
                 }
               }}
@@ -118,4 +102,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ShowClient);
+export default connect(mapStateToProps)(showCompte);

@@ -33,5 +33,19 @@ router.delete(
 );
 
 router.get("/roles", [checkJwt, checkRole(["ADMIN"])], UserController.getRoles);
-
+router.post(
+  "/roles/add",
+  [checkJwt, checkRole(["ADMIN"])],
+  UserController.addRole
+);
+router.patch(
+  "/roles/edit",
+  [checkJwt, checkRole(["ADMIN"])],
+  UserController.editRole
+);
+router.delete(
+  "/roles/delete/:roleId([0-9]+)",
+  [checkJwt, checkRole(["ADMIN"])],
+  UserController.deletteRole
+);
 export default router;

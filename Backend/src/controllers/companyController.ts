@@ -41,4 +41,38 @@ export class companyController {
       res.send("compte ajouté avec succée");
     }
   };
+  static editCompany = async (req: Request, res: Response) => {
+    let { compteIntitule, compteNum } = req.body;
+    let company = new F_comptet();
+
+    let companyRepository = getRepository(F_comptet);
+    try {
+      company = await companyRepository.findOneOrFail({ compteNum: compteNum });
+    } catch (e) {
+      res.status(409).send("compte non trouvé");
+      return;
+    }
+    company.compteIntitule = compteIntitule;
+
+    try {
+      await companyRepository.save(company);
+    } catch (e) {
+      res.status(409).send("un problème de modification");
+    }
+    res.send("Company modifié avec succées");
+    return;
+  };
+
+  static deletteCompany = async (req: Request, res: Response) => {
+    let Company = new F_comptet();
+    let { compteNum } = req.body;
+    const companyRepository = getRepository(F_comptet);
+    try {
+      Company = await companyRepository.findOneOrFail({ compteNum: compteNum });
+    } catch (e) {
+      res.status(404).send("Company non trouvé");
+    }
+    companyRepository.delete({ compteNum: compteNum });
+    res.send("compte supprimé avec succée");
+  };
 }

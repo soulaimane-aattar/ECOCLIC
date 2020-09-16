@@ -45,6 +45,15 @@ const ACTION_TYPES = {
   /*****************************************************fin articles for admin *************/
   ADD_COMPANY_SUCCESS: "ADD_COMPANY_SUCCESS",
   ADD_COMPANY_FAILURE: "ADD_COMPANY_FAILURE",
+  /*****************************************************roles action for admin *************/
+  EDIT_ROLE_SUCCESS: "EDIT_ROLE_SUCCESS",
+  EDIT_ROLE_FAILURE: "EDIT_ROLE_FAILURE",
+
+  DELETTE_ROLE_SUCCESS: "DELETTE_ROLE_SUCCESS",
+  DELETTE_ROLE_FAILURE: "DELETTE_ROLE_FAILURE",
+
+  ADD_ROLE_SUCCESS: "ADD_ROLE_SUCCESS",
+  ADD_ROLE_FAILURE: "ADD_ROLE_FAILURE",
 
   UPDATE_STATE: "UPDATE_STATE",
   CHECKOUT_SUCCESS: "CHECKOUT_SUCCESS",
