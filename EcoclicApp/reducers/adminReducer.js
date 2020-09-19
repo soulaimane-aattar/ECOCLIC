@@ -36,6 +36,11 @@ const initialState = {
   messageRoleSuppime: "",
   ///******************************************* ADD company**********/
   messageAddCompany: "",
+  companyAdded: false,
+  ///******************************************* edit company**********/
+  compteModifier: false,
+  ///******************************************* delete compte**********/
+  compteSupprime: false,
 };
 export default adminReducer = (state = initialState, action) => {
   /***********************************************************action get all cleints from database**************************************/
@@ -227,17 +232,55 @@ export default adminReducer = (state = initialState, action) => {
       return (nextState = {
         ...state,
         messageAddCompany: action.payload.responce.data,
-
+        companyAdded: true,
         companies: [...state.companies, action.payload.company],
       });
       break;
     case ACTION_TYPES.ADD_COMPANY_FAILURE:
       return (nextState = {
         ...state,
+        companyAdded: false,
         messageAddCompany: action.payload.responce.data,
       });
       break;
-
+    /******************************************************************Edit a company****************** */
+    case ACTION_TYPES.EDIT_COMPANY_SUCCESS:
+      let compte = action.payload.compte;
+      let idCompte = state.companies.findIndex(
+        (cm) => cm.compteNum == compte.compteNum
+      );
+      let nextCompanies = [...state.companies];
+      nextCompanies[idCompte] = Object.assign(nextCompanies[idCompte], compte);
+      return (nextState = {
+        ...state,
+        compteModifier: true,
+        companies: nextCompanies,
+      });
+      break;
+    case ACTION_TYPES.EDIT_COMPANY_FAILURE:
+      return (nextState = {
+        ...state,
+        compteModifier: false,
+      });
+      break;
+    /******************************************************************delete a company****************** */
+    case ACTION_TYPES.DELETTE_COMPANY_SUCCESS:
+      return (nextState = {
+        ...state,
+        compteSupprime: true,
+        companies: [
+          ...state.companies.filter(
+            (compte) => compte !== action.payload.compte
+          ),
+        ],
+      });
+      break;
+    case ACTION_TYPES.DELETTE_COMPANY_FAILURE:
+      return (nextState = {
+        ...state,
+        compteSupprime: false,
+      });
+      break;
     /******************************************************************help methode to update state***********************/
     case ACTION_TYPES.UPDATE_STATE:
       console.log("hello");

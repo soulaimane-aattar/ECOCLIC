@@ -13,20 +13,20 @@ class AjoutCompte extends Component {
       compteIntitule: "",
       compteNum: "",
     };
+    const { navigation } = this.props;
     return (
       <Formik
         initialValues={this.state}
         onSubmit={(values) => {
           this.props.dispatch(actions.addCompany(this.props.token, values));
-          console.log("this is message");
-          console.log(this.props.messageAddCompany);
+
           Alert.alert(
             "",
-            "" + this.props.messageAddCompany,
+            "compte ajouté avec succés",
             [
               {
                 text: "voir vos modification",
-                // onPress: () => navigation.navigate("Clients"),
+                onPress: () => navigation.navigate("Comptes"),
               },
             ],
             { cancelable: false }

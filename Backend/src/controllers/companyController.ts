@@ -64,8 +64,8 @@ export class companyController {
   };
 
   static deletteCompany = async (req: Request, res: Response) => {
+    const compteNum = req.params.compteNum;
     let Company = new F_comptet();
-    let { compteNum } = req.body;
     const companyRepository = getRepository(F_comptet);
     try {
       Company = await companyRepository.findOneOrFail({ compteNum: compteNum });

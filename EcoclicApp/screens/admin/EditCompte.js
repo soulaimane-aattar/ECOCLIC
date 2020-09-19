@@ -21,7 +21,6 @@ class EditCompte extends React.Component {
       compteIntitule: compte.compte.compteIntitule,
       compteNum: compte.compte.compteNum,
     };
-    let modifie = this.props.modifie;
     console.log(compte);
     const { navigation } = this.props;
 
@@ -33,21 +32,23 @@ class EditCompte extends React.Component {
               initialValues={this.state}
               onSubmit={(values) => {
                 this.props.dispatch(
-                  actions.editCompte(this.props.token, values)
+                  actions.editCompany(this.props.token, values)
                 );
-                Alert.alert(
-                  "",
-                  "" + this.props.messageEditcompte.data,
-                  [
-                    {
-                      text: "voir vos modification",
-                      onPress: () => navigation.navigate("comptes"),
-                    },
-                  ],
-                  { cancelable: false }
-                );
+                if (this.props.compteModifier == true) {
+                  Alert.alert(
+                    "",
+                    "compte modifié avec succée",
+                    [
+                      {
+                        text: "voir vos modification",
+                        onPress: () => navigation.navigate("Comptes"),
+                      },
+                    ],
+                    { cancelable: false }
+                  );
 
-                // Alert.alert(this.props.messageEditcompte);
+                  // Alert.alert(this.props.messageEditcompte);
+                }
               }}
               validationSchema={validationSchema}
             >
@@ -141,9 +142,8 @@ class EditCompte extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    modifie: state.adminReducer.modifie,
+    compteModifier: state.adminReducer.compteModifier,
     token: state.userReducer.token,
-    messageEditcompte: state.adminReducer.messageEditcompte,
   };
 };
 //validationSchema

@@ -5,6 +5,8 @@ import { Input } from "react-native-elements";
 import { argonTheme } from "../../constants";
 const { width } = Dimensions.get("screen");
 import { Block, Checkbox, theme, Text, Button } from "galio-framework";
+import * as actions from "../../actios/actionCreator";
+
 import {
   ScrollView,
   StyleSheet,
@@ -22,6 +24,16 @@ const GRADIENT_PINK = ["#D442F8", "#B645F5", "#9B40F8"];
 const COLOR_WHITE = theme.COLORS.WHITE;
 const COLOR_GREY = theme.COLORS.MUTED; // '#D8DDE1';
 class Roles extends Component {
+  componentDidMount() {
+    const { navigation } = this.props;
+    this._unsubscribe = navigation.addListener("focus", () => {
+      this.props.dispatch(actions.getRoles(this.props.token));
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   renderCard = (role, index) => {
     const { navigation } = this.props;
     const gradientColors = index % 2 ? GRADIENT_BLUE : GRADIENT_PINK;

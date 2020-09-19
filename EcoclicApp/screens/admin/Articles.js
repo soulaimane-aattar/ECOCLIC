@@ -22,6 +22,7 @@ import * as actions from "../../actios/actionCreator";
 const thumbMeasure = (width - 48 - 32) / 3;
 const cardWidth = width - theme.SIZES.BASE * 2;
 const BASE_SIZE = theme.SIZES.BASE;
+// const { navigation } = this.props;
 
 class Articles extends React.Component {
   componentDidMount() {
@@ -38,6 +39,7 @@ class Articles extends React.Component {
               item={article}
               idx={idx}
               horizontal /*={idx % 3 == 0}*/
+              key={article.articleId}
             />
           ))}
         </Block>
@@ -56,7 +58,7 @@ class Articles extends React.Component {
         <ScrollView style={{ paddingTop: BASE_SIZE, flex: 1 }}>
           {this.renderCards()}
         </ScrollView>
-        <Block right style={{ zIndex: 0, justifyContent: "flex-end" }}>
+        {/* <Block right style={{ zIndex: 0, justifyContent: "flex-end" }}>
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => navigation.navigate("AjoutCompte")}
@@ -69,7 +71,7 @@ class Articles extends React.Component {
               family="AntDesign"
             />
           </TouchableOpacity>
-        </Block>
+        </Block> */}
       </Block>
     );
   }

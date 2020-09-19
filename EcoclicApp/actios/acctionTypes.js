@@ -35,7 +35,17 @@ const ACTION_TYPES = {
   GET_COMPANY_START: "GET_COMPANY_START",
   GET_COMPANY_SUCCESS: "GET_COMPANY_SUCCESS",
   GET_COMPANY_FAILURE: "GET_COMPANY_FAILURE",
-  /****************************************************get all company action type ***********/
+  /****************************************************Add a  company action type ***********/
+  ADD_COMPANY_SUCCESS: "ADD_COMPANY_SUCCESS",
+  ADD_COMPANY_FAILURE: "ADD_COMPANY_FAILURE",
+  /*****************************************************edit company *************/
+  EDIT_COMPANY_SUCCESS: "EDIT_COMPANY_SUCCESS",
+  EDIT_COMPANY_FAILURE: "EDIT_COMPANY_FAILURE",
+  /*****************************************************delete a company *************/
+
+  DELETTE_COMPANY_SUCCESS: "DELETTE_COMPANY_SUCCESS",
+  DELETTE_COMPANY_FAILURE: "DELETTE_COMPANY_FAILURE",
+  /****************************************************get all roles action type ***********/
   GET_ROLES_START: "GET_ROLES_START",
   GET_ROLES_SUCCESS: "GET_ROLES_SUCCESS",
   GET_ROLES_FAILURE: "GET_ROLES_FAILURE",
@@ -43,8 +53,7 @@ const ACTION_TYPES = {
   GET_ARTICLE_FOR_ADMIN_SUCCESS: "GET_ARTICLE_FOR_ADMIN_SUCCESS",
   GET_ARTICLE_FOR_ADMIN_FAILURE: "GET_ARTICLE_FOR_ADMIN_FAILURE",
   /*****************************************************fin articles for admin *************/
-  ADD_COMPANY_SUCCESS: "ADD_COMPANY_SUCCESS",
-  ADD_COMPANY_FAILURE: "ADD_COMPANY_FAILURE",
+
   /*****************************************************roles action for admin *************/
   EDIT_ROLE_SUCCESS: "EDIT_ROLE_SUCCESS",
   EDIT_ROLE_FAILURE: "EDIT_ROLE_FAILURE",

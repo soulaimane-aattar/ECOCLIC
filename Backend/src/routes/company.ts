@@ -19,7 +19,7 @@ router.patch(
   companyController.editCompany
 );
 router.delete(
-  "/delete",
+  "/delete/:compteNum([0-9]+)",
   [checkJwt, checkRole(["ADMIN"])],
   companyController.deletteCompany
 );

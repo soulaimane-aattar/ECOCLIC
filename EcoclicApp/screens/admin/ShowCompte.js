@@ -65,13 +65,21 @@ class showCompte extends React.Component {
               title="supprimer"
               titleStyle={styles.titleStyle}
               onPress={() => {
-                console.log(compte.userId);
                 this.props.dispatch(
-                  actions.delettecompte(this.props.token, compte)
+                  actions.deletteCompany(this.props.token, compte)
                 );
-                if (this.props.supprime == true) {
-                  Alert.alert("compte supprime avec succes");
-                  navigation.goBack();
+                if (this.props.compteSupprime == true) {
+                  Alert.alert(
+                    "",
+                    "le compte est suprimé avec succée",
+                    [
+                      {
+                        text: "voir vos comptes",
+                        onPress: () => navigation.navigate("Comptes"),
+                      },
+                    ],
+                    { cancelable: false }
+                  );
                 }
               }}
             />
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     token: state.userReducer.token,
-    supprime: state.adminReducer.supprime,
+    compteSupprime: state.adminReducer.compteSupprime,
   };
 };
 

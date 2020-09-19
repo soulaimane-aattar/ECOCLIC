@@ -59,7 +59,7 @@ class ShowRole extends React.Component {
                 this.props.dispatch(
                   actions.deletteRole(this.props.token, role)
                 );
-                if (this.props.roleSupprime == true) {
+                if (this.props.roleSupprime === true) {
                   Alert.alert(
                     "",
                     "le role est suprimé avec succée",

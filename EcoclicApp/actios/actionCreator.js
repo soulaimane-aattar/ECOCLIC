@@ -353,7 +353,58 @@ export const addCompany = (token, company) => {
       });
   };
 };
+export const editCompany = (token, compte) => {
+  console.log("dispatched ");
+  return (dispatch, getState) => {
+    axios
+      .patch(
+        "http://localhost:3000/company/edit",
+        {
+          compteIntitule: compte.compteIntitule,
+          compteNum: compte.compteNum,
+        },
+        { headers: { auth: token } }
+      )
 
+      .then((responce) => {
+        dispatch({
+          type: ACTION_TYPES.EDIT_COMPANY_SUCCESS,
+          payload: { responce, compte },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: ACTION_TYPES.EDIT_COMPANY_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
+export const deletteCompany = (token, compte) => {
+  const compteNum = compte.compteNum;
+  return (dispatch, getState) => {
+    axios
+      .delete(
+        "http://localhost:3000/company/delete/" + compteNum,
+
+        { headers: { auth: token } }
+      )
+      .then((responce) => {
+        console.log("delete passed succesfully");
+        dispatch({
+          type: ACTION_TYPES.DELETTE_COMPANY_SUCCESS,
+          payload: { responce, compte },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: ACTION_TYPES.DELETTE_COMPANY_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
 export const checkoutCard = (token, products) => {
   console.log("poroducts ", { products: products });
   return (dispatch, getState) => {

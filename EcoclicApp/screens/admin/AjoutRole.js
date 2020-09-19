@@ -31,17 +31,23 @@ class AjoutRole extends React.Component {
               initialValues={this.state}
               onSubmit={(values) => {
                 this.props.dispatch(actions.addRole(this.props.token, values));
-                Alert.alert(
-                  "",
-                  "" + this.props.messageAddRole,
-                  [
-                    {
-                      text: "voir la liste des roles",
-                      onPress: () => navigation.navigate("Roles"),
-                    },
-                  ],
-                  { cancelable: false }
-                );
+                if (this.props.roleAdded === true) {
+                  Alert.alert(
+                    "",
+                    "Role ajouté avec succée",
+                    [
+                      {
+                        text: "voir la liste des roles",
+                        onPress: () => {
+                          console.log("hiiiiiiiiiiiiii");
+                          console.log(this.props.messageAddRole);
+                          navigation.navigate("Roles");
+                        },
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+                }
               }}
               validationSchema={validationSchema}
             >
