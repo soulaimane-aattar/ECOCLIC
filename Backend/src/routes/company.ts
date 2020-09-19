@@ -13,5 +13,14 @@ router.post(
   [checkJwt, checkRole(["ADMIN"])],
   companyController.addCompany
 );
-
+router.patch(
+  "/edit",
+  [checkJwt, checkRole(["ADMIN"])],
+  companyController.editCompany
+);
+router.delete(
+  "/delete/:compteNum([0-9]+)",
+  [checkJwt, checkRole(["ADMIN"])],
+  companyController.deletteCompany
+);
 export default router;

@@ -112,6 +112,91 @@ export const getRoles = (token) => {
       });
   };
 };
+/********************************************************edit a role action creator */
+export const editRole = (token, role) => {
+  console.log("dispatched ");
+  return (dispatch, getState) => {
+    axios
+      .patch(
+        "http://localhost:3000/user/roles/edit",
+        {
+          roleId: role.roleId,
+          roleName: role.roleName,
+        },
+        { headers: { auth: token } }
+      )
+
+      .then((responce) => {
+        console.log("role edited, below the responce from the server");
+        console.log(responce.data);
+        dispatch({
+          type: ACTION_TYPES.EDIT_ROLE_SUCCESS,
+          payload: { responce, role },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: ACTION_TYPES.EDIT_ROLE_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
+export const addRole = (token, role) => {
+  console.log("role is :");
+  console.log(role);
+  return (dispatch, getState) => {
+    axios
+      .post(
+        "http://localhost:3000/user/roles/add",
+        {
+          roleName: role.roleName,
+        },
+        { headers: { auth: token } }
+      )
+      .then((responce) => {
+        dispatch({
+          type: ACTION_TYPES.ADD_ROLE_SUCCESS,
+          payload: { responce, role },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: ACTION_TYPES.ADD_ROLE_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
+export const deletteRole = (token, role) => {
+  console.log(token);
+  console.log("role passed");
+  console.log(role.roleId);
+  const roleId = role.roleId;
+  return (dispatch, getState) => {
+    axios
+      .delete(
+        "http://localhost:3000/user/roles/delete/" + roleId,
+
+        { headers: { auth: token } }
+      )
+      .then((responce) => {
+        console.log("delete passed succesfully");
+        dispatch({
+          type: ACTION_TYPES.DELETTE_ROLE_SUCCESS,
+          payload: { responce, role },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: ACTION_TYPES.DELETTE_ROLE_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
 /********************************************************add client to database action creator */
 
 export const addClient = (token, client) => {
@@ -268,7 +353,58 @@ export const addCompany = (token, company) => {
       });
   };
 };
+export const editCompany = (token, compte) => {
+  console.log("dispatched ");
+  return (dispatch, getState) => {
+    axios
+      .patch(
+        "http://localhost:3000/company/edit",
+        {
+          compteIntitule: compte.compteIntitule,
+          compteNum: compte.compteNum,
+        },
+        { headers: { auth: token } }
+      )
 
+      .then((responce) => {
+        dispatch({
+          type: ACTION_TYPES.EDIT_COMPANY_SUCCESS,
+          payload: { responce, compte },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: ACTION_TYPES.EDIT_COMPANY_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
+export const deletteCompany = (token, compte) => {
+  const compteNum = compte.compteNum;
+  return (dispatch, getState) => {
+    axios
+      .delete(
+        "http://localhost:3000/company/delete/" + compteNum,
+
+        { headers: { auth: token } }
+      )
+      .then((responce) => {
+        console.log("delete passed succesfully");
+        dispatch({
+          type: ACTION_TYPES.DELETTE_COMPANY_SUCCESS,
+          payload: { responce, compte },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: ACTION_TYPES.DELETTE_COMPANY_FAILURE,
+          payload: error,
+        });
+      });
+  };
+};
 export const checkoutCard = (token, products) => {
   console.log("poroducts ", { products: products });
   return (dispatch, getState) => {

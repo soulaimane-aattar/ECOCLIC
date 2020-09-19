@@ -1,94 +1,102 @@
 import React, { Component, Fragment } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
-import { Formik } from "formik";
 import * as yup from "yup";
-import { Button } from "react-native-elements";
-import { connect } from "react-redux";
+import { Formik } from "formik";
 import { Input } from "react-native-elements";
-const { width, height } = Dimensions.get("screen");
-import * as actions from "../../actios/actionCreator";
+import { argonTheme } from "../../constants";
+const { width } = Dimensions.get("screen");
+import { Block, Checkbox, theme, Text, Button } from "galio-framework";
+import {
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import { LinearGradient as Gradient } from "expo-linear-gradient";
+// import { Icon } from "../../components";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+import { connect } from "react-redux";
+const BASE_SIZE = theme.SIZES.BASE;
+const GRADIENT_BLUE = ["#6B84CA", "#8F44CE"];
+const GRADIENT_PINK = ["#D442F8", "#B645F5", "#9B40F8"];
+const COLOR_WHITE = theme.COLORS.WHITE;
+const COLOR_GREY = theme.COLORS.MUTED; // '#D8DDE1';
 class Comptes extends Component {
-  render() {
-    this.state = {
-      compteIntitule: "",
-      compteNum: "",
-    };
+  renderCard = (compte, index) => {
+    const { navigation } = this.props;
+    const gradientColors = index % 2 ? GRADIENT_BLUE : GRADIENT_PINK;
+
     return (
-      <Formik
-        initialValues={this.state}
-        onSubmit={(values) => {
-          this.props.dispatch(actions.addCompany(this.props.token, values));
-          console.log("this is message");
-          console.log(this.props.messageAddCompany);
-          Alert.alert(
-            "",
-            "" + this.props.messageAddCompany,
-            [
-              {
-                text: "voir vos modification",
-                // onPress: () => navigation.navigate("Clients"),
-              },
-            ],
-            { cancelable: false }
-          );
-        }}
-        validationSchema={validationSchema}
+      <Block
+        row
+        center
+        card
+        shadow
+        space="between"
+        style={styles.card}
+        key={compte.compteNum}
       >
-        {({
-          values,
-          handleChange,
-          errors,
-          setFieldTouched,
-          touched,
-          isValid,
-          handleSubmit,
-        }) => (
-          <Fragment>
-            <Input
-              value={values.compteIntitule}
-              onChangeText={handleChange("compteIntitule")}
-              onBlur={() => setFieldTouched("compteIntitule")}
-              placeholder="Nom du compte"
+        <Gradient
+          start={[0.45, 0.45]}
+          end={[0.9, 0.9]}
+          colors={gradientColors}
+          style={[styles.gradient, styles.left]}
+        >
+          {/* <Icon
+            size={BASE_SIZE * 1.8}
+            name="universal-access"
+            color={COLOR_WHITE}
+            family="FontAwesome"
+          /> */}
+          <Icon name="university" size={30} />
+        </Gradient>
+
+        <Block flex>
+          <Text size={BASE_SIZE * 1.125}>{compte.compteIntitule}</Text>
+          <Text size={BASE_SIZE * 0.875} muted>
+            {compte.compteIntitule}
+          </Text>
+        </Block>
+        <Button
+          style={styles.right}
+          onPress={() => navigation.navigate("ShowCompte", { compte: compte })}
+        >
+          <Icon
+            size={BASE_SIZE * 2}
+            name="chevron-right"
+            family="Entypo"
+            color={COLOR_GREY}
+          />
+        </Button>
+      </Block>
+    );
+  };
+  // renderCards = () => cards.map((card, index) => this.renderCard(card, index));
+  renderCards = () =>
+    this.props.companies.map((compte, index) => this.renderCard(compte, index));
+  render() {
+    const { navigation } = this.props;
+
+    return (
+      <Block flex safe>
+        <ScrollView style={{ paddingTop: BASE_SIZE, flex: 1 }}>
+          {this.renderCards()}
+        </ScrollView>
+        <Block right style={{ zIndex: 0, justifyContent: "flex-end" }}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.navigate("AjoutCompte")}
+          >
+            <Icon
+              size={25}
+              style={{ margin: 15 }}
+              color={argonTheme.COLORS.WHITE}
+              name="plus"
+              family="AntDesign"
             />
-            {touched.compteIntitule && errors.compteIntitule && (
-              <Text
-                style={{
-                  marginLeft: width * 0.1,
-                  fontSize: 12,
-                  color: "red",
-                }}
-              >
-                {errors.compteIntitule}
-              </Text>
-            )}
-            <Input
-              value={values.compteNum}
-              onChangeText={handleChange("compteNum")}
-              onBlur={() => setFieldTouched("compteNum")}
-              placeholder="Numéro du compte"
-            />
-            {touched.compteNum && errors.compteNum && (
-              <Text
-                style={{
-                  marginLeft: width * 0.1,
-                  fontSize: 12,
-                  color: "red",
-                }}
-              >
-                {errors.compteNum}
-              </Text>
-            )}
-            <Button
-              type="outline"
-              title="enregistrer"
-              titleStyle={styles.titleStyle}
-              buttonStyle={styles.createButton}
-              disabled={!isValid}
-              onPress={() => handleSubmit()}
-            />
-          </Fragment>
-        )}
-      </Formik>
+          </TouchableOpacity>
+        </Block>
+      </Block>
     );
   }
 }
@@ -96,25 +104,47 @@ class Comptes extends Component {
 const mapStateToProps = (state) => {
   return {
     token: state.userReducer.token,
-    messageAddCompany: state.adminReducer.messageAddCompany,
+    companies: state.adminReducer.companies,
   };
 };
+
 const styles = StyleSheet.create({
-  createButton: {
-    width: width * 0.5,
-    // marginTop: 25,
-    marginTop: 9,
-    marginLeft: width * 0.2,
-    color: "black",
-    margin: "auto",
+  addButton: {
+    margin: 15,
+    borderRadius: 60,
+    backgroundColor: argonTheme.COLORS.PRIMARY,
   },
-  titleStyle: {
-    color: "black",
+  CardBlock: {
+    width: width - 20,
+    padding: 10,
+    //minHeight: 90,
+    margin: 10,
+    backgroundColor: theme.COLORS.WHITE,
+  },
+  //
+  left: {
+    marginRight: BASE_SIZE,
+  },
+  right: {
+    width: BASE_SIZE * 2,
+    backgroundColor: "transparent",
+    elevation: 0,
+  },
+  gradient: {
+    width: BASE_SIZE * 3.25,
+    height: BASE_SIZE * 3.25,
+    borderRadius: BASE_SIZE * 3.25,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  card: {
+    borderColor: "transparent",
+    marginHorizontal: BASE_SIZE,
+    marginVertical: BASE_SIZE / 2,
+    padding: BASE_SIZE,
+    backgroundColor: COLOR_WHITE,
+    shadowOpacity: 0.4,
   },
 });
-//validationSchema
-validationSchema = yup.object().shape({
-  compteIntitule: yup.string().min(2).required("le nom de compte est requis"),
-  compteNum: yup.number().required("le nom de compte est requis"),
-});
+
 export default connect(mapStateToProps)(Comptes);

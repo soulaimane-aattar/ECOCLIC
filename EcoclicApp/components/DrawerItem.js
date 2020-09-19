@@ -84,6 +84,33 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : argonTheme.COLORS.PRIMARY}
           />
         );
+      case "Clients":
+        return (
+          <Icon
+            name="users"
+            family="Entypo"
+            size={14}
+            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
+          />
+        );
+      case "Roles":
+        return (
+          <Icon
+            name="torso-business"
+            family="Foundation"
+            size={14}
+            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
+          />
+        );
+      case "Comptes":
+        return (
+          <Icon
+            name="team"
+            family="AntDesign"
+            size={14}
+            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
+          />
+        );
       default:
         return null;
     }

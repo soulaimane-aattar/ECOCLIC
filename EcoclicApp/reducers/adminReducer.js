@@ -25,9 +25,22 @@ const initialState = {
   ///******************************************* edit client**********/
   modifie: false,
   messageEditClient: "",
+  ///******************************************* add a  role**********/
+  messageAddRole: "",
+  roleAdded: "",
+  ///******************************************* edit role**********/
+  roleModifie: false,
+  messageEditRole: "",
+  ///******************************************* delete client**********/
+  roleSupprime: false,
+  messageRoleSuppime: "",
   ///******************************************* ADD company**********/
-
   messageAddCompany: "",
+  companyAdded: false,
+  ///******************************************* edit company**********/
+  compteModifier: false,
+  ///******************************************* delete compte**********/
+  compteSupprime: false,
 };
 export default adminReducer = (state = initialState, action) => {
   /***********************************************************action get all cleints from database**************************************/
@@ -71,7 +84,7 @@ export default adminReducer = (state = initialState, action) => {
         clients: [...state.clients, action.payload.client],
       });
       break;
-    case ACTION_TYPES.GET_CLIENT_FAILURE:
+    case ACTION_TYPES.ADD_CLIENT_FAILURE:
       return (nextState = {
         ...state,
         messageAddClient: action.payload.data,
@@ -96,16 +109,11 @@ export default adminReducer = (state = initialState, action) => {
       break;
     /*********************************************************edit client********************************** */
     case ACTION_TYPES.EDIT_CLIENT_SUCCESS:
-      console.log(action.payload.responce.data);
       let client = action.payload.client;
       let index = state.clients.findIndex((cl) => cl.userId == client.userId);
       let nextClients = [...state.clients];
-      console.log("***************************oldclient***********");
-      console.log(nextClients[index]);
       nextClients[index] = Object.assign(nextClients[index], client);
-      console.log("***************************nextclient***********");
 
-      console.log(nextClients[index]);
       return (nextState = {
         ...state,
         modifie: true,
@@ -151,6 +159,60 @@ export default adminReducer = (state = initialState, action) => {
         errorLoadingRoles: true,
       });
       break;
+    /******************************************************************Add a role****************** */
+
+    case ACTION_TYPES.ADD_ROLE_SUCCESS:
+      return (nextState = {
+        ...state,
+        messageAddRole: action.payload.responce.data,
+        roleAdded: true,
+        roles: [...state.roles, action.payload.role],
+      });
+      break;
+    case ACTION_TYPES.ADD_ROLE_FAILURE:
+      return (nextState = {
+        ...state,
+        messageAddRole: action.payload.data,
+        roleAdded: false,
+      });
+      break;
+    /*********************************************************edit a role********************************** */
+    case ACTION_TYPES.EDIT_ROLE_SUCCESS:
+      let role = action.payload.role;
+      let id = state.roles.findIndex((rl) => rl.roleId == role.roleId);
+      let nextRoles = [...state.roles];
+      nextRoles[id] = Object.assign(nextRoles[id], role);
+      console.log("this is the responce from the edit action");
+
+      console.log(action.payload.responce);
+      return (nextState = {
+        ...state,
+        roleModifie: true,
+        roles: nextRoles,
+        messageEditRole: action.payload.responce,
+      });
+      break;
+    case ACTION_TYPES.EDIT_ROLE_FAILURE:
+      return (nextState = {
+        ...state,
+        messageEditRole: action.payload.responce,
+        roleModifie: false,
+      });
+      break;
+    /******************************************************************delete a role from database****************** */
+    case ACTION_TYPES.DELETTE_ROLE_SUCCESS:
+      return (nextState = {
+        ...state,
+        roleSupprime: true,
+        roles: [...state.roles.filter((role) => role !== action.payload.role)],
+      });
+      break;
+    case ACTION_TYPES.DELETTE_ROLE_FAILURE:
+      return (nextState = {
+        ...state,
+        roleSupprime: false,
+      });
+      break;
     /******************************************************************get all Articles for admin from database****************** */
     case ACTION_TYPES.GET_ARTICLE_FOR_ADMIN_SUCCESS:
       return (nextState = {
@@ -170,17 +232,55 @@ export default adminReducer = (state = initialState, action) => {
       return (nextState = {
         ...state,
         messageAddCompany: action.payload.responce.data,
-
+        companyAdded: true,
         companies: [...state.companies, action.payload.company],
       });
       break;
     case ACTION_TYPES.ADD_COMPANY_FAILURE:
       return (nextState = {
         ...state,
+        companyAdded: false,
         messageAddCompany: action.payload.responce.data,
       });
       break;
-
+    /******************************************************************Edit a company****************** */
+    case ACTION_TYPES.EDIT_COMPANY_SUCCESS:
+      let compte = action.payload.compte;
+      let idCompte = state.companies.findIndex(
+        (cm) => cm.compteNum == compte.compteNum
+      );
+      let nextCompanies = [...state.companies];
+      nextCompanies[idCompte] = Object.assign(nextCompanies[idCompte], compte);
+      return (nextState = {
+        ...state,
+        compteModifier: true,
+        companies: nextCompanies,
+      });
+      break;
+    case ACTION_TYPES.EDIT_COMPANY_FAILURE:
+      return (nextState = {
+        ...state,
+        compteModifier: false,
+      });
+      break;
+    /******************************************************************delete a company****************** */
+    case ACTION_TYPES.DELETTE_COMPANY_SUCCESS:
+      return (nextState = {
+        ...state,
+        compteSupprime: true,
+        companies: [
+          ...state.companies.filter(
+            (compte) => compte !== action.payload.compte
+          ),
+        ],
+      });
+      break;
+    case ACTION_TYPES.DELETTE_COMPANY_FAILURE:
+      return (nextState = {
+        ...state,
+        compteSupprime: false,
+      });
+      break;
     /******************************************************************help methode to update state***********************/
     case ACTION_TYPES.UPDATE_STATE:
       console.log("hello");
